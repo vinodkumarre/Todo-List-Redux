@@ -37,13 +37,12 @@ const Edit = (props) => {
         setDescription(e.target.value)
     }
     const editHandler = ()=>{
-        const d = new Date(value);
         if(tittle !== "") {
             dispatch(todoActions.editUser({
                 tittle:tittle,
                 description:description,
                 id:props.editList,
-                date:d.toLocaleDateString(),
+                date:value,
             }))
         } else {
             console.log('error');
@@ -53,7 +52,7 @@ const Edit = (props) => {
     // const dateHandler= (e) => {
     //     setValue(e.target.value)
     // }
-    debugger;
+    // debugger;
 
     return (
         <>

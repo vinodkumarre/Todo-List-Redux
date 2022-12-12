@@ -21,13 +21,12 @@ const AddTask = () => {
     const dispatch = useDispatch();
     const addHandler =()=>{
         counter+=1;
-        const d = new Date(value);
         if(tittle !== "") {
             dispatch(todoActions.addUser({
                 tittle:tittle,
                 description:description,
                 id:counter,
-                date:d.toLocaleDateString(),
+                date:value,
             }))
             setDescription('');
             setTittle('');
