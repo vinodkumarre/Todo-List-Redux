@@ -11,6 +11,10 @@ const todoSlice = createSlice({
     addUser(state, actions) {
       state.todos.push(actions.payload);
     },
+    editUser(state, actions) {
+      const newTodos = state.todos.filter(todo => todo.id !== actions.payload)
+      // state.todos = state.todos.push(newTodos)
+    },
   },
 });
 export const todoActions = todoSlice.actions;

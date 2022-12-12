@@ -1,80 +1,75 @@
-
+import React from 'react';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { todoActions } from '../Store/todo';
-import { counterAction } from "../Store/reducer";
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { Dayjs } from 'dayjs';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Button } from '@mui/material';
-
-// const useStyle = makeStyles({
-//     div:{
-//         margin: "25px auto"
-//     },
-// })
-
-
+let counter =0;
 
 const AddTask = () => {
     const [tittle, setTittle] = useState('');
     const [description, setDescription] = useState('');
-    const [date, setDate] = useState('');
+    const [tittleText, setTittleText] = useState('');
+    const [dateText, setDateText] = useState('');
+    const [descriptionText, setDescriptionText] = useState('');
+    const [value, setValue] = useState('');
     const dispatch = useDispatch();
-    const handlerHome = ()=> {
-        dispatch(counterAction.back())
-    }
     const addHandler =()=>{
-        console.log('hai')
-        if(tittle !== "" && description !== "" && date !=="") {
+        counter+=1;
+        const d = new Date(value);
+        if(tittle !== "") {
             dispatch(todoActions.addUser({
                 tittle:tittle,
                 description:description,
-                date:date
+                id:counter,
+                date:d.toLocaleDateString(),
             }))
             setDescription('');
             setTittle('');
-            setDate('');
         } else {
-            alert("please enter the field")
-        }
-        
-        
+            setDateText('please enter Date');
+            setTittleText('please enter Tittle');
+            setDescriptionText('please enter Description');
+        } 
     }
-
-    // const classes = useStyle();
     return (
-        <div style={{margin : '25% auto',
-            width: '50%',}}>
-            <TextField fullWidth label="Tittle" value={tittle} onChange={(e) => setTittle(e.target.value)} />
-            <textarea  label="" value={description} onChange={(e) => setDescription(e.target.value)}
-                style={{
-                    width: '100%',
-                    height: '150px',
-                    padding: '12px 20px',
-                    boxSizing: 'border-box',
-                    border: '2px solid #ccc',
-                    borderRadius: '4px',
-                    backgroundColor: '#f8f8f8',
-                    fontSize: '16px',
-                    resize: 'none'
-                }}  
+        <>
+            <div style={{
+                margin:'15px auto',
+                width:'80%',
+                paddingLeft:'40%'
+            }}>
+                <h3>Add Task</h3>
+
+            </div>
+            <div style={{height:'80%', margin:'auto',
+            width: '80%', display:'block'}}>
+            <TextField fullWidth label="Tittle" value={tittle}  onChange={(e) => setTittle(e.target.value)} helperText={tittleText} sx={{marginTop:'10px',}} />
+            <TextareaAutosize 
+                value={description} 
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Description"
+                fullWidth
+                style={{ resize: 'none',height: '60px', marginTop:'10px', width: '-webkit-fill-available', borderRadius: '4px', }}
             />
-            {/* <input type="date" value={date} onChange={(e) => setDate(e.target.value)} ></input> */}
-            <LocalizationProvider dateAdapter={AdapterMoment} >
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                    label="Basic example"
-                    value={date}
-                    onChange={(e) => {
-                    setDate(e.target.value);
+                    label="pick Date"
+                    value={value}
+                    onChange={(newValue) => {
+                    setValue(newValue);
                     }}
-                    renderInput={(params) => <TextField {...params} />}
+                    renderInput={(params) => <TextField {...params} fullWidth sx={{marginTop:'10px', color:'GrayText'}} />}
                 />
             </LocalizationProvider>
-            <Button onClick={addHandler} variant='contained' color="success">Add</Button>
-            <Button onClick={handlerHome} variant='contained' color="primary">Back</Button>
+            <Button onClick={addHandler} variant='contained' color="success" sx={{margin:'10px', float:'right'}}>Add</Button>
         </div>
+        </>
     );
 
 };
