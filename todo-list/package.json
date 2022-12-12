@@ -9,6 +9,7 @@
     "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.17",
     "@mui/styled-engine-sc": "^5.10.16",
+    "@mui/styles": "^5.10.16",
     "@mui/x-date-pickers": "^5.0.9",
     "@mui/x-date-pickers-pro": "^5.0.9",
     "@reduxjs/toolkit": "^1.9.1",
@@ -17,7 +18,10 @@
     "@testing-library/user-event": "^13.5.0",
     "dayjs": "^1.11.7",
     "eslint": "^8.29.0",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -51,5 +55,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-plugin-react": "^7.31.11"
   }
 }
