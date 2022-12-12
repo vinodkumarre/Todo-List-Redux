@@ -1,69 +1,75 @@
 
-import { useSelector } from "react-redux";
 import Slider from "./side";
 import React from "react";
 import { Button } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { counterAction } from "../Store/reducer";
+import Dialog from '@mui/material/Dialog';
 import AddTask from "./AddTask";
+import ListTask from "./ListTask";
 
 const Home = () => {
-    const task = useSelector((state) => state.todos.todos)
-    const dispatch = useDispatch();
-    const popUp = useSelector((state) => state.counter.showPopUp)
-    const addListHandler = () => {
-        console.log("hai");
-        dispatch(counterAction.clicked())
+    const [open, setOpen] = React.useState(false);
 
-    };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
     return (
         <>
-            {popUp ? (<AddTask/>) : (
+            {open ? (
+                        <Dialog
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        > <AddTask/> </Dialog>
+                    ) : (
                     <div style={{
                         margin:'25px auto',
                         display: 'block',
                         border:'2px solid green',
                         width: '80%',
-                        // height: '80%'
+                        height: '80vh',
+                        display: 'flex'
                     }}
                     >
                         <div style={{
-                                alignItems:'center',
-                                width: '100%',
-                                backgroundColor: 'black',
-                                height: '10vh',
-                                display: 'flex',
-                                
-                            }}
-                        >
+                            margin:'0px',
+                            width: '30%',
+                            height:'80vh',
+                            borderRight: '1px solid black'
+                        }}>
+                            <Slider/>
+                        </div>
+                        <div style={{
+                            display:'flex',
+                            flexDirection: 'column',
+                            width: '80%',
+                            height:'80vh'
+                            
+
+
+
+                            
+                        }}>
                             <div style={{
-                                marginLeft:'80%',
+                                border:'1px solid black',
+                                height:'60px',
+                                display:'flex', alignItems:'center',paddingLeft: '85%'
+
+
                             }}>
-                                <Button onClick={addListHandler} variant="contained">
+                                <Button onClick={handleClickOpen} variant="contained" sx={{}}>
                                     Add Task
                                 </Button>
                             </div>
+                            <div>
+                                <ListTask/>
+                            </div>
                         </div>
-                        <div style={{
-                            width: '30%',
-                            height:'80vh',
-                            border: '1px solid black',
-                        }}
-                        >
-                            <Slider />
-                        </div>
-
-                        <div>
-                            {task.map((todo) => (
-                                <div>
-                                    <span>{todo.tittle}</span>
-                                    <span>{todo.description}</span>
-                                    <span>{todo.date}</span>
-                                </div>
-                            ))}
-                            
-                        </div>   
                     </div>
                 )
             }
