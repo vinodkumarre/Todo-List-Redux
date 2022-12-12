@@ -12,8 +12,8 @@ const todoSlice = createSlice({
       state.todos.push(actions.payload);
     },
     editUser(state, actions) {
-      const newTodos = state.todos.filter(todo => todo.id !== actions.payload)
-      // state.todos = state.todos.push(newTodos)
+      const newTodos = state.todos.filter(todo => todo.id !== actions.payload.id)
+      state.todos = newTodos;
     },
   },
 });
