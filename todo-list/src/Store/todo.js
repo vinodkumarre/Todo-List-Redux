@@ -14,14 +14,18 @@ const todoSlice = createSlice({
     },
     editUser(state, actions) {
       const currentState = current(state.todos);
-      console.log(actions.payload);
-      console.log(currentState);
       const newTodos = currentState.findIndex((x) => x.id === actions.payload.id);
       state.todos[newTodos] = {
         ...state.todos[newTodos],
         ...actions.payload,
       };
       console.log(newTodos);
+    },
+    deleteUser(state, actions) {
+      const currentState = current(state.todos);
+      const newTodos = currentState.filter((x) => x.id !== actions.payload);
+      console.log(actions.payload);
+      state.todos = newTodos;
     },
   },
 });

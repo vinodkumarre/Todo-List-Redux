@@ -1,13 +1,17 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import Dialog from "@mui/material/Dialog";
 import Edit from "./Edit";
+import { todoActions } from "../Store/todo";
 
 function ListTask() {
+  const task = useSelector((state) => state.todos.todos);
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState();
+  const [currentRadioValue, setCurrentRadioValue] = React.useState();
+  const dispatch = useDispatch();
 
   const handleClickOpen = (id) => {
     setOpen(true);
@@ -17,8 +21,11 @@ function ListTask() {
   const handleClose = () => {
     setOpen(false);
   };
-  const task = useSelector((state) => state.todos.todos);
-  console.log(task.length);
+  const handleRadioChange = (e) => {
+    setCurrentRadioValue(e);
+    dispatch(todoActions.deleteUser(e));
+    console.log(e);
+  };
 
   return (
     <div>
@@ -33,35 +40,43 @@ function ListTask() {
         </Dialog>
       ) : (
         task.map((todo) => (
-          <div style={{
-            margin: "15px",
-            border: "2px solid green",
-            height: "10vh",
-            width: "60%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
+          <div
+            key={todo.id}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginLeft: "20px",
+              marginTop: "10px",
+              borderBottom: "0.5px solid black",
+              backgroundColor: "antiquewhite",
+
+            }}
           >
             <div style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
+              gap: "20px",
             }}
             >
               <div>
-                <input type="Checkbox" style={{ width: "40px", height: "40px" }} />
+                <input type="radio" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo.id)} style={{ width: "30px", height: "30px" }} />
               </div>
-              <div style={{ display: "flex", flexDirection: "column", paddingLeft: "25px" }}>
-                <span>
-                  Tittle:
+              <div style={{
+                display: "flex", flexDirection: "column", gap: "9px",
+              }}
+              >
+                <span style={{ fontSize: "xx-large" }}>
                   {todo.tittle}
                 </span>
-                <input value={todo.date} style={{ marginTop: "15px" }} />
+                <input value={todo.date} />
               </div>
             </div>
             <div style={{ paddingRight: "10px" }}>
-              <Button variant="contained" color="success" onClick={() => handleClickOpen(todo.id)}><EditIcon /></Button>
+              <Button onClick={() => handleClickOpen(todo.id)}>
+                <ModeEditOutlineOutlinedIcon />
+              </Button>
             </div>
           </div>
         ))
