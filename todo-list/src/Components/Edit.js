@@ -39,7 +39,7 @@ function Edit(props) {
         tittle,
         description,
         id: props.editList,
-        date: value,
+        date: new Date(value).toLocaleDateString(),
       }));
     }
   };

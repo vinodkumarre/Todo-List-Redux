@@ -18,6 +18,14 @@ function AddTask() {
   const [tittleText, setTittleText] = useState("");
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
+  const handleText = (e) => {
+    setTittle(e.target.value);
+    if (e.target.value !== "") {
+      setTittleText("");
+    } else {
+      setTittleText("please enter the tittle");
+    }
+  };
   const addHandler = () => {
     counter += 1;
     if (tittle !== "") {
@@ -25,7 +33,8 @@ function AddTask() {
         tittle,
         description,
         id: counter,
-        date: value,
+        date: new Date(value).toLocaleDateString(),
+        priority: "priority4",
       }));
       setDescription("");
       setTittle("");
@@ -37,29 +46,29 @@ function AddTask() {
   return (
     <>
       <div style={{
-        margin: "15px auto",
-        width: "80%",
+        marginTop: "15px",
+        width: "50%",
         paddingLeft: "40%",
       }}
       >
-        <h3>Add Task</h3>
+        <h2>Add Task</h2>
 
       </div>
       <div style={{
-        height: "80%",
+        height: "60%",
         margin: "auto",
-        width: "80%",
+        width: "50%",
         display: "block",
       }}
       >
-        <TextField fullWidth label="Tittle" value={tittle} onChange={(e) => setTittle(e.target.value)} helperText={tittleText} sx={{ marginTop: "10px" }} />
+        <TextField fullWidth label="Tittle" value={tittle} onChange={handleText} helperText={tittleText} sx={{ marginTop: "10px" }} />
         <TextareaAutosize
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Description"
           fullWidth
           style={{
-            resize: "none", height: "60px", marginTop: "10px", width: "-webkit-fill-available", borderRadius: "4px",
+            resize: "none", height: "60px", marginTop: "10px", width: "-webkit-fill-available", borderRadius: "4px", padding: "15px",
           }}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
