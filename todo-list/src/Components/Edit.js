@@ -8,6 +8,10 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import { Button } from "@mui/material";
 import { todoActions } from "../Store/todo";
 
@@ -15,6 +19,7 @@ function Edit(props) {
   const [tittle, setTittle] = useState("");
   const [description, setDescription] = useState("");
   const [value, setValue] = useState("");
+  const [priority, setPriority] = React.useState("");
   const dispatch = useDispatch();
 
   const listItem = useSelector((state) => state.todos.todos);
@@ -25,6 +30,7 @@ function Edit(props) {
       setDescription(list[0].description);
       setTittle(list[0].tittle);
       setValue(list[0].date);
+      setPriority(list[0].priority);
     }
   }, []);
   const tittleHandler = (e) => {
@@ -33,6 +39,9 @@ function Edit(props) {
   const descriptionHandler = (e) => {
     setDescription(e.target.value);
   };
+  const handleChange = (event) => {
+    setPriority(event.target.value);
+  };
   const editHandler = () => {
     if (tittle !== "") {
       dispatch(todoActions.editUser({
@@ -40,6 +49,7 @@ function Edit(props) {
         description,
         id: props.editList,
         date: new Date(value).toLocaleDateString(),
+        priority,
       }));
     }
   };
@@ -79,6 +89,18 @@ function Edit(props) {
             renderInput={(params) => <TextField {...params} fullWidth sx={{ marginTop: "10px", color: "GrayText" }} />}
           />
         </LocalizationProvider>
+        <FormControl fullWidth sx={{ marginTop: "10px", border: "none" }}>
+          <InputLabel />
+          <Select
+            value={priority}
+            onChange={handleChange}
+          >
+            <MenuItem value="priority1">priority1</MenuItem>
+            <MenuItem value="priority2">priority2</MenuItem>
+            <MenuItem value="priority3">priority3</MenuItem>
+            <MenuItem value="priority4">priority4</MenuItem>
+          </Select>
+        </FormControl>
         <Button variant="contained" onClick={editHandler} color="success" sx={{ margin: "10px", float: "right" }}>Add</Button>
       </div>
     </>
