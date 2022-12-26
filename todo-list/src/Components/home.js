@@ -6,7 +6,6 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-// import Select from "@mui/material/Select";
 import { makeStyles } from "@mui/styles";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -16,28 +15,20 @@ import DialogActions from "@mui/material/DialogActions";
 import AddIcon from "@mui/icons-material/Add";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-// import Menu from "@mui/material/Menu";
-// import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Badge from "@mui/material/Badge";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-// import MailIcon from "@mui/icons-material/Mail";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import AddTask from "./AddTask";
 import TodayDate from "./TodayDate";
 import { projectActions } from "../Store/project";
-// import { todoActions } from "../Store/todo";
-
-// import ProjectButton from "./ProjectButton";
 import ProjectListView from "./projectListView";
 import ListTask from "./ListTask";
 import UpcomingTask from "./UpcomingTask";
 import PrioritySelector from "./prioritySelector";
-// import ProjectAddTittle from "./ProjectAddTittle";
-// import DialogBox from "./DialogBox";
 
 const useStyle = makeStyles({
   button: {
@@ -93,14 +84,34 @@ const useStyle = makeStyles({
 
     },
   },
+  button3: {
+    padding: "0px !important",
+    backgroundColor: "#cc5647 !important",
+    color: "white !important",
+    paddingRight: "3px !important",
+    "&:hover": {
+      backgroundColor: "white !important",
+      color: "#cc5647 !important",
+    },
+  },
+  button4: {
+    backgroundColor: "#cc5647 !important",
+    color: "white !important",
+    marginTop: "10px !important",
+    width: "30% !important",
+    height: "70% !important",
+    marginLeft: "20px !important",
+    padding: "0px !important",
+    "&:hover": {
+      backgroundColor: "white !important",
+      color: "#cc5647 !important",
+    },
+  },
 });
 
 function Home() {
   const task = useSelector((state) => state.todos.todos);
   const projectTittles = useSelector((state) => state.project.names);
-  console.log(projectTittles);
-  console.log(task);
-
   const [open, setOpen] = React.useState(false);
   const [opens, setOpens] = React.useState(false);
   const [isopen, setIsOpen] = React.useState(true);
@@ -115,10 +126,6 @@ function Home() {
   const [projectAdd, setProjectAdd] = React.useState();
   const [isPriority, setIsPriority] = React.useState();
   const [selectors, setSelectors] = React.useState(false);
-  // const [opens, setOpens] = React.useState(false);
-  // const [anchorEl, setAnchorEl] = React.useState("");
-  // const [role, setRole] = React.useState("");
-
   const [isTodayDate, setIsTodayDate] = React.useState();
   const [name, setName] = React.useState("");
   const [passName, setPassName] = React.useState("");
@@ -128,7 +135,6 @@ function Home() {
     setName(e.target.value);
   };
   const addHandler = () => {
-    console.log(name);
     if (name !== "") {
       dispatch(projectActions.project({
         name,
@@ -176,7 +182,6 @@ function Home() {
       setIsOpen(false);
       setSelectors(false);
       setIsTodayDate(newList);
-      console.log(newList);
     }
   };
   const handleChange = (e) => {
@@ -187,7 +192,6 @@ function Home() {
       setIsOpen(false);
       setSelectors(true);
       setIsPriority(newList);
-      console.log(newList);
     }
   };
   const filterHandler = () => {
@@ -201,12 +205,8 @@ function Home() {
     setProjectButton(true);
   };
   const projectPage = (e) => {
-    console.log(e);
     setProjectAdd(e);
     setPassName(e.name);
-
-    // const proj = projectTittles.filter((y) => y.name === e.name);
-    // console.log(proj);
     setProjectTittle(e.todos);
     setIsProjectPage(true);
   };
@@ -237,7 +237,7 @@ function Home() {
         }}
         >
           <div style={{
-            // width: "30%",
+            width: "50%",
             height: "100%",
             paddingLeft: "3px",
             paddingRight: "3px",
@@ -270,7 +270,7 @@ function Home() {
                 marginTop: "5px", marginBottom: "10px", border: "none", padding: "0px",
               }}
             >
-              <InputLabel placeholder="priority" />
+              <InputLabel> Select priority </InputLabel>
               <Select
                 value={priority}
                 onChange={handleChange}
@@ -338,18 +338,14 @@ function Home() {
                   marginLeft: "20px",
                   marginTop: "10px",
                   width: "60%",
-                  // borderBottom: "0.5px solid black",
-                  // backgroundColor: "antiquewhite",
-
                 }}
                 >
                   <ProjectListView projectList={projectTittle} />
                   <Button
                     onClick={handleClickOpen}
-                    sx={{
-                      marginTop: "10px", width: "30%", height: "30%", marginLeft: "20px",
-                    }}
+                    className={classes.button4}
                   >
+                    <AddIcon />
                     Add Task
                   </Button>
                 </div>
@@ -371,9 +367,7 @@ function Home() {
                   <Button
                     onClick={handleClickOpen}
                     variant="outlined"
-                    sx={{
-                      backgroundColor: "#cc5647", padding: "3px", color: "whitesmoke",
-                    }}
+                    className={classes.button3}
                   >
                     <AddIcon />
                     Add Task

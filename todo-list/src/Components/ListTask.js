@@ -47,8 +47,6 @@ function ListTask() {
               alignItems: "center",
               justifyContent: "space-between",
               borderBottom: "0.5px solid black",
-              // backgroundColor: "antiquewhite",
-
             }}
           >
             <div style={{

@@ -5,10 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import Dialog from "@mui/material/Dialog";
-// import { useSelector } from "react-redux";
 import Edit from "./Edit";
 import { todoActions } from "../Store/todo";
-// import { projectActions } from "../Store/project";
 
 function ProjectListView(props) {
   const task = useSelector((state) => state.todos.todos);
@@ -23,9 +21,6 @@ function ProjectListView(props) {
     }
     return false;
   });
-  console.log(d);
-  console.log(task);
-  console.log(props);
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState();
   const [currentRadioValue, setCurrentRadioValue] = React.useState();
@@ -41,7 +36,6 @@ function ProjectListView(props) {
   const handleRadioChange = (e) => {
     setCurrentRadioValue(e);
     dispatch(todoActions.deleteUser(e));
-    console.log(e);
   };
 
   return (
@@ -63,10 +57,7 @@ function ProjectListView(props) {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              marginLeft: "20px",
-              marginTop: "10px",
               borderBottom: "0.5px solid black",
-              backgroundColor: "antiquewhite",
 
             }}
           >
@@ -87,7 +78,7 @@ function ProjectListView(props) {
                 <span style={{ fontSize: "xx-large" }}>
                   {todo.tittle}
                 </span>
-                <input value={todo.date} />
+                <input style={{ marginBottom: "10px" }} value={todo.date} />
               </div>
             </div>
             <div style={{ paddingRight: "10px" }}>

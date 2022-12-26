@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { useDispatch } from "react-redux";
-// import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -55,8 +54,6 @@ const useStyle = makeStyles({
 });
 
 function AddTask(props) {
-  console.log(props);
-
   const [tittle, setTittle] = useState("");
   const [description, setDescription] = useState("");
   const [tittleText, setTittleText] = useState("");

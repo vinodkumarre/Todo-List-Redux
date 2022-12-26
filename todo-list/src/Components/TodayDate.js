@@ -22,10 +22,8 @@ function TodayDate() {
   const handleRadioChange = (e) => {
     setCurrentRadioValue(e);
     dispatch(todoActions.deleteUser(e));
-    console.log(e);
   };
   const newTask = task.filter((t) => t.date === new Date().toLocaleDateString());
-  console.log(newTask);
 
   return (
     <div>
