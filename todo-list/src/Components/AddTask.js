@@ -2,21 +2,66 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { useDispatch } from "react-redux";
-// import { Dayjs } from "dayjs";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
+// import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { todoActions } from "../Store/todo";
+import { projectActions } from "../Store/project";
 
-let counter = 0;
+const useStyle = makeStyles({
+  button: {
+    float: "right",
+    backgroundColor: "#cc5647 !important",
+    color: "white !important",
+    "&:hover": {
+      backgroundColor: "white !important",
+      color: "#cc5647 !important",
+    },
+  },
+  textFiled: {
+    width: "100%",
+    marginLeft: "20px !important",
+    "& fieldset": { border: "none" },
+    "& input": { height: "10px" },
+    "& p": { color: "red" },
+  },
+  dateTextFiled: {
+    marginBottom: "10px !important",
+    paddingLeft: "15px !important",
+    width: "40% !important",
+    "& fieldset": { border: "1px solid #241a1a !important" },
+  },
+  containerDiv: {
+    height: "40%",
+    marginTop: "15px",
+    marginLeft: "20px",
+    marginRight: "20px",
+    width: "90%",
+    display: "block",
+    border: "1px solid black",
+    borderRadius: "15px",
+  },
+  buttonDiv: {
+    width: "90%",
+    marginTop: "15px",
+    marginBottom: "15px",
+    marginLeft: "20px",
+    height: "10%",
+  },
 
-function AddTask() {
+});
+
+function AddTask(props) {
+  console.log(props);
+
   const [tittle, setTittle] = useState("");
   const [description, setDescription] = useState("");
   const [tittleText, setTittleText] = useState("");
   const [value, setValue] = useState("");
+  const [isDate, setIsDate] = useState("");
   const dispatch = useDispatch();
   const handleText = (e) => {
     setTittle(e.target.value);
@@ -27,61 +72,74 @@ function AddTask() {
     }
   };
   const addHandler = () => {
-    counter += 1;
     if (tittle !== "") {
+      const tempId = (new Date()).getTime().toString(36);
       dispatch(todoActions.addUser({
         tittle,
         description,
-        id: counter,
+        id: tempId,
         date: new Date(value).toLocaleDateString(),
         priority: "priority4",
       }));
       setDescription("");
       setTittle("");
       setValue("");
+      setIsDate("");
+      dispatch(projectActions.projectAddUser({
+        // eslint-disable-next-line react/destructuring-assignment
+        name: props.headTittle,
+        newTodo: {
+
+          id: tempId,
+
+        },
+      }));
     } else {
       setTittleText("please enter Tittle");
     }
   };
+  const classes = useStyle();
   return (
     <>
-      <div style={{
-        marginTop: "15px",
-        width: "50%",
-        paddingLeft: "40%",
-      }}
-      >
-        <h2>Add Task</h2>
-
-      </div>
-      <div style={{
-        height: "60%",
-        margin: "auto",
-        width: "50%",
-        display: "block",
-      }}
-      >
-        <TextField fullWidth label="Tittle" value={tittle} onChange={handleText} helperText={tittleText} sx={{ marginTop: "10px" }} />
-        <TextareaAutosize
+      <div className={classes.containerDiv}>
+        <TextField
+          className={classes.textFiled}
+          placeholder="Add Tittle"
+          value={tittle}
+          onChange={handleText}
+          helperText={tittleText}
+        />
+        <TextField
+          className={classes.textFiled}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Description"
-          fullWidth
-          style={{
-            resize: "none", height: "60px", marginTop: "10px", width: "-webkit-fill-available", borderRadius: "4px", padding: "15px",
-          }}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            label="pick Date"
             value={value}
             onChange={(newValue) => {
               setValue(newValue);
             }}
-            renderInput={(params) => <TextField {...params} fullWidth sx={{ marginTop: "10px", color: "GrayText" }} />}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                value={isDate}
+                className={classes.dateTextFiled}
+              />
+            )}
           />
         </LocalizationProvider>
-        <Button onClick={addHandler} variant="contained" color="success" sx={{ margin: "10px", float: "right" }}>Add</Button>
+      </div>
+      <div className={classes.buttonDiv}>
+        <Button
+          className={classes.button}
+          variant="outlined"
+          onClick={addHandler}
+        >
+          Add Task
+        </Button>
+
       </div>
     </>
   );

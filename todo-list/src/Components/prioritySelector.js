@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import React from "react";
 import { useDispatch } from "react-redux";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
@@ -7,8 +6,7 @@ import Dialog from "@mui/material/Dialog";
 import Edit from "./Edit";
 import { todoActions } from "../Store/todo";
 
-function UpcomingTask(props) {
-  console.log(props);
+function PrioritySelector(props) {
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState();
   const [currentRadioValue, setCurrentRadioValue] = React.useState();
@@ -25,17 +23,20 @@ function UpcomingTask(props) {
     dispatch(todoActions.deleteUser(e));
     console.log(e);
   };
-
+  console.log(props);
   return (
     <div>
       {open ? (
         <Dialog
           open={open}
           onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
         >
           <Edit editList={edit} />
         </Dialog>
-      ) : (props.upCome.map((todo) => (
+      // eslint-disable-next-line react/destructuring-assignment
+      ) : (props.priorityChange.map((todo) => (
         <div
           key={todo.id}
           style={{
@@ -63,7 +64,6 @@ function UpcomingTask(props) {
             }}
             >
               <span style={{ fontSize: "xx-large" }}>
-                Tittle:
                 {todo.tittle}
               </span>
               <input value={todo.date} />
@@ -81,4 +81,4 @@ function UpcomingTask(props) {
 
   );
 }
-export default UpcomingTask;
+export default PrioritySelector;

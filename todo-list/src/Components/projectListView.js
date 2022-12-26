@@ -1,17 +1,34 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react/destructuring-assignment */
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import Dialog from "@mui/material/Dialog";
+// import { useSelector } from "react-redux";
 import Edit from "./Edit";
 import { todoActions } from "../Store/todo";
+// import { projectActions } from "../Store/project";
 
-function ListTask() {
+function ProjectListView(props) {
   const task = useSelector((state) => state.todos.todos);
+  const dispatch = useDispatch();
+
+  // eslint-disable-next-line no-debugger
+  //   debugger;
+  const d = task.filter((v) => {
+    const fu = props.projectList && props.projectList.find((f) => f.id === v.id);
+    if (fu) {
+      return true;
+    }
+    return false;
+  });
+  console.log(d);
+  console.log(task);
+  console.log(props);
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState();
   const [currentRadioValue, setCurrentRadioValue] = React.useState();
-  const dispatch = useDispatch();
 
   const handleClickOpen = (id) => {
     setOpen(true);
@@ -39,15 +56,17 @@ function ListTask() {
           <Edit editList={edit} />
         </Dialog>
       ) : (
-        task.map((todo) => (
+        d.map((todo) => (
           <div
             key={todo.id}
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
+              marginLeft: "20px",
+              marginTop: "10px",
               borderBottom: "0.5px solid black",
-              // backgroundColor: "antiquewhite",
+              backgroundColor: "antiquewhite",
 
             }}
           >
@@ -68,7 +87,7 @@ function ListTask() {
                 <span style={{ fontSize: "xx-large" }}>
                   {todo.tittle}
                 </span>
-                <input style={{ marginBottom: "10px" }} value={todo.date} />
+                <input value={todo.date} />
               </div>
             </div>
             <div style={{ paddingRight: "10px" }}>
@@ -83,4 +102,4 @@ function ListTask() {
 
   );
 }
-export default ListTask;
+export default ProjectListView;

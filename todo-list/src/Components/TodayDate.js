@@ -45,8 +45,10 @@ function TodayDate() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            marginLeft: "20px",
             marginTop: "10px",
             borderBottom: "0.5px solid black",
+            backgroundColor: "antiquewhite",
           }}
         >
           <div style={{
@@ -57,10 +59,10 @@ function TodayDate() {
           }}
           >
             <div>
-              <input type="radio" style={{ width: "40px", height: "40px" }} value={currentRadioValue} onClick={() => handleRadioChange(todo.id)} />
+              <input type="radio" style={{ width: "30px", height: "30px" }} value={currentRadioValue} onClick={() => handleRadioChange(todo.id)} />
             </div>
             <div style={{
-              display: "flex", flexDirection: "column", gap: "9px", marginBottom: "10px",
+              display: "flex", flexDirection: "column", gap: "9px",
             }}
             >
               <span style={{ fontSize: "xx-large" }}>
