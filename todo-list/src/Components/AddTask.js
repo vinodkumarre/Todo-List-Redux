@@ -7,8 +7,12 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { todoActions } from "../Store/todo";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import { projectActions } from "../Store/project";
+import { todoActions } from "../Store/todo";
 
 const useStyle = makeStyles({
   button: {
@@ -32,6 +36,13 @@ const useStyle = makeStyles({
     paddingLeft: "15px !important",
     width: "40% !important",
     "& fieldset": { border: "1px solid #241a1a !important" },
+  },
+  dateTextFiled1: {
+    marginBottom: "10px !important",
+    paddingLeft: "15px !important",
+    width: "40% !important",
+    "& fieldset": { border: "1px solid #241a1a !important" },
+    "& label": { paddingLeft: "10px" },
   },
   containerDiv: {
     height: "40%",
@@ -59,6 +70,8 @@ function AddTask(props) {
   const [tittleText, setTittleText] = useState("");
   const [value, setValue] = useState("");
   const [isDate, setIsDate] = useState("");
+  const [priority, setPriority] = useState("");
+
   const dispatch = useDispatch();
   const handleText = (e) => {
     setTittle(e.target.value);
@@ -68,6 +81,9 @@ function AddTask(props) {
       setTittleText("please enter the tittle");
     }
   };
+  const handleChange = (event) => {
+    setPriority(event.target.value);
+  };
   const addHandler = () => {
     if (tittle !== "") {
       const tempId = (new Date()).getTime().toString(36);
@@ -76,7 +92,7 @@ function AddTask(props) {
         description,
         id: tempId,
         date: new Date(value).toLocaleDateString(),
-        priority: "priority4",
+        priority,
       }));
       setDescription("");
       setTittle("");
@@ -112,21 +128,39 @@ function AddTask(props) {
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Description"
         />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            value={value}
-            onChange={(newValue) => {
-              setValue(newValue);
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                value={isDate}
-                className={classes.dateTextFiled}
-              />
-            )}
-          />
-        </LocalizationProvider>
+        <div style={{
+          display: "flex",
+          gap: "20px",
+        }}
+        >
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              value={value}
+              onChange={(newValue) => {
+                setValue(newValue);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  value={isDate}
+                  className={classes.dateTextFiled}
+                />
+              )}
+            />
+          </LocalizationProvider>
+          <FormControl className={classes.dateTextFiled1}>
+            <InputLabel> Select priority </InputLabel>
+            <Select
+              value={priority}
+              onChange={handleChange}
+            >
+              <MenuItem value="priority1">priority1</MenuItem>
+              <MenuItem value="priority2">priority2</MenuItem>
+              <MenuItem value="priority3">priority3</MenuItem>
+              <MenuItem value="priority4">priority4</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
       </div>
       <div className={classes.buttonDiv}>
         <Button
