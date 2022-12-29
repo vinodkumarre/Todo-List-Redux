@@ -1,12 +1,17 @@
+/* eslint-disable react/destructuring-assignment */
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import Dialog from "@mui/material/Dialog";
+import { ToastContainer, toast } from "react-toastify";
 import Edit from "./Edit";
 import { todoActions } from "../Store/todo";
+import { doneActions } from "../Store/doneReducer";
 
-function ListTask() {
+import "react-toastify/dist/ReactToastify.css";
+
+function ListTask(props) {
   const task = useSelector((state) => state.todos.todos);
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState();
@@ -22,61 +27,69 @@ function ListTask() {
     setOpen(false);
   };
   const handleRadioChange = (e) => {
-    setCurrentRadioValue(e);
-    dispatch(todoActions.deleteUser(e));
-    console.log(e);
+    setCurrentRadioValue(e.id);
+    dispatch(todoActions.deleteUser(e.id));
+    dispatch(doneActions.doneUser(e));
+    toast("Task moved to Done Section Successfully");
   };
 
   return (
     <div>
-      {open ? (
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+      {task.map((todo) => (
+        <div
+          key={todo.id}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderBottom: "0.5px solid black",
+            marginLeft: "15px",
+            marginTop: "15px",
+            height: "60px",
+          }}
         >
-          <Edit editList={edit} />
-        </Dialog>
-      ) : (
-        task.map((todo) => (
-          <div
-            key={todo.id}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              borderBottom: "0.5px solid black",
-            }}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "20px",
+          }}
           >
+            <div>
+              <input type="radio" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo)} style={{ width: "30px", height: "30px" }} />
+            </div>
             <div style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "20px",
+              display: "flex", flexDirection: "column", gap: "4px",
             }}
             >
-              <div>
-                <input type="radio" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo.id)} style={{ width: "30px", height: "30px" }} />
-              </div>
+              <span style={{ fontSize: "x-large" }}>
+                {todo.tittle}
+              </span>
               <div style={{
-                display: "flex", flexDirection: "column", gap: "9px",
+                display: "flex", gap: "40px", alignItems: "center", height: "20px",
               }}
               >
-                <span style={{ fontSize: "xx-large" }}>
-                  {todo.tittle}
-                </span>
-                <input style={{ marginBottom: "10px" }} value={todo.date} />
+                <input style={{ width: "70px", height: "20px" }} value={todo.date && todo.date.toLocaleDateString()} />
+                <h4>{props.projectName}</h4>
               </div>
-            </div>
-            <div style={{ paddingRight: "10px" }}>
-              <Button onClick={() => handleClickOpen(todo.id)}>
-                <ModeEditOutlineOutlinedIcon />
-              </Button>
+
             </div>
           </div>
-        ))
-      ) }
+          <div style={{ paddingRight: "10px" }}>
+            <Button onClick={() => handleClickOpen(todo.id)}>
+              <ModeEditOutlineOutlinedIcon />
+            </Button>
+          </div>
+        </div>
+      ))}
+      <ToastContainer />
+      <Dialog
+        open={open}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <Edit editList={edit} handClose={handleClose} />
+      </Dialog>
     </div>
 
   );

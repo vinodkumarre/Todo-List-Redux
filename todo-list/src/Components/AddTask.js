@@ -11,8 +11,10 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { ToastContainer, toast } from "react-toastify";
 import { projectActions } from "../Store/project";
 import { todoActions } from "../Store/todo";
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyle = makeStyles({
   button: {
@@ -47,18 +49,16 @@ const useStyle = makeStyles({
   containerDiv: {
     height: "40%",
     marginTop: "15px",
-    marginLeft: "20px",
-    marginRight: "20px",
     width: "90%",
     display: "block",
     border: "1px solid black",
     borderRadius: "15px",
+    backgroundColor: "whiteSmoke",
   },
   buttonDiv: {
     width: "90%",
     marginTop: "15px",
     marginBottom: "15px",
-    marginLeft: "20px",
     height: "10%",
   },
 
@@ -91,7 +91,7 @@ function AddTask(props) {
         tittle,
         description,
         id: tempId,
-        date: new Date(value).toLocaleDateString(),
+        date: new Date(value),
         priority,
       }));
       setDescription("");
@@ -107,6 +107,7 @@ function AddTask(props) {
 
         },
       }));
+      toast("Task is add successfully");
     } else {
       setTittleText("please enter Tittle");
     }
@@ -114,6 +115,7 @@ function AddTask(props) {
   const classes = useStyle();
   return (
     <>
+      <ToastContainer />
       <div className={classes.containerDiv}>
         <TextField
           className={classes.textFiled}
@@ -169,6 +171,14 @@ function AddTask(props) {
           onClick={addHandler}
         >
           Add Task
+        </Button>
+        <Button
+          className={classes.button}
+          variant="outlined"
+          // eslint-disable-next-line react/destructuring-assignment
+          onClick={props.handClose}
+        >
+          close
         </Button>
 
       </div>

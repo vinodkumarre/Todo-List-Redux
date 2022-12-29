@@ -1,7 +1,9 @@
-/* eslint-disable eqeqeq */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable max-len */
+/* eslint-disable react/jsx-props-no-spreading */
+// /* eslint-disable eqeqeq */
+// /* eslint-disable no-restricted-globals */
+// /* eslint-disable react/jsx-props-no-spreading */
+// /* eslint-disable max-len */
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
@@ -21,6 +23,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import AddTask from "./AddTask";
 import TodayDate from "./TodayDate";
@@ -29,6 +33,7 @@ import ProjectListView from "./projectListView";
 import ListTask from "./ListTask";
 import UpcomingTask from "./UpcomingTask";
 import PrioritySelector from "./prioritySelector";
+import Done from "./Done";
 
 const useStyle = makeStyles({
   button: {
@@ -111,6 +116,7 @@ const useStyle = makeStyles({
 
 function Home() {
   const task = useSelector((state) => state.todos.todos);
+  const doneCount = useSelector((state) => state.done.done);
   const projectTittles = useSelector((state) => state.project.names);
   const [open, setOpen] = React.useState(false);
   const [opens, setOpens] = React.useState(false);
@@ -119,7 +125,6 @@ function Home() {
   const [calender, setCalender] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [isUpCome, setIsUpCome] = React.useState(false);
-  const [isProjectOpen, setIsProjectOpen] = React.useState(false);
   const [ProjectButton, setProjectButton] = React.useState(false);
   const [isProjectPage, setIsProjectPage] = React.useState(false);
   const [projectTittle, setProjectTittle] = React.useState();
@@ -130,6 +135,7 @@ function Home() {
   const [name, setName] = React.useState("");
   const [passName, setPassName] = React.useState("");
   const [priority, setPriority] = React.useState("");
+  const [isDelete, setIsDelete] = React.useState(false);
   const dispatch = useDispatch();
   const handleText = (e) => {
     setName(e.target.value);
@@ -173,6 +179,7 @@ function Home() {
     setProjectButton(false);
     setSelectors(false);
     setIsProjectPage(false);
+    setIsDelete(false);
   };
   const handleCelander = (e) => {
     setValue(e);
@@ -198,7 +205,6 @@ function Home() {
     setCalender(true);
   };
   const projectHandler = () => {
-    setIsProjectOpen(true);
     setOpens(true);
   };
   const projectTittleHandler = () => {
@@ -210,35 +216,84 @@ function Home() {
     setProjectTittle(e.todos);
     setIsProjectPage(true);
   };
+  const setHandler = () => {
+    setIsDelete(true);
+    setIsOpen(false);
+  };
   const classes = useStyle();
 
   return (
-    <div>
-      {open ? (
-        <Dialog
-          sx={{
-            width: "45%",
-            margin: "25px auto",
-          }}
-          open={open}
-          onClose={handleClose}
-        >
-          <AddTask headTittle={passName} />
+    <>
+      <Modal
+        sx={{
+          width: "45%",
+          // top: "0px !important",
+          position: "none",
+          margin: "15% auto",
+        }}
+        open={open}
+        // onClose={handleClose}
+      >
+        <Box>
+          <AddTask headTittle={passName} handClose={handleClose} />
+        </Box>
 
-        </Dialog>
-      ) : (
+      </Modal>
+      <Dialog
+        className={classes.dialog}
+        open={opens}
+        onClose={handleCloses}
+      >
+        <DialogTitle id="alert-dialog-title">
+          <h4 style={{
+            paddingLeft: "50px",
+          }}
+          >
+            Add Name
+          </h4>
+        </DialogTitle>
+        <DialogContent>
+          <TextField fullWidth label="Tittle" value={name} onChange={handleText} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={addHandler} variant="contained" color="success" sx={{ margin: "10px", float: "right" }}>Add</Button>
+        </DialogActions>
+      </Dialog>
+      <div style={{
+        margin: "80px auto",
+        border: "1px solid black",
+        width: "60%",
+        height: "500px",
+        gap: "10px",
+      }}
+      >
+        <div
+          style={{
+            borderBottom: "1px solid black",
+            minHeight: "50px",
+            display: "flex",
+            alignItems: "center",
+            paddingLeft: "85%",
+          }}
+        >
+          <Button
+            onClick={handleClickOpen}
+            variant="outlined"
+            className={classes.button3}
+          >
+            <AddIcon />
+            Add Task
+          </Button>
+        </div>
         <div style={{
-          margin: "80px auto",
-          border: "1px solid black",
-          width: "60%",
-          height: "500px",
+          width: "100%",
           display: "flex",
+          height: "450px",
           gap: "10px",
         }}
         >
           <div style={{
-            width: "50%",
-            height: "100%",
+            width: "30%",
             paddingLeft: "3px",
             paddingRight: "3px",
             boxShadow: "0 6px 20px 0 rgba(0, 0, 0, 0.19)",
@@ -250,6 +305,10 @@ function Home() {
               <Badge badgeContent={task.length} className={classes.baged} color="primary" />
             </Button>
             <Button className={classes.button2} onClick={dateHandler}>Today</Button>
+            <Button className={classes.button2} onClick={setHandler}>
+              done
+              <Badge badgeContent={doneCount.length} className={classes.baged} color="primary" />
+            </Button>
             <Button className={classes.button2}>
               Upcoming
               <CalendarTodayIcon onClick={filterHandler} />
@@ -286,37 +345,10 @@ function Home() {
               {" "}
               <AddCircleOutlinedIcon onClick={projectHandler} />
             </Button>
-            {ProjectButton ? (projectTittles.map((item) => <Button className={classes.button2} onClick={() => projectPage(item)}>{item.name}</Button>)
-            ) : null}
-            {isProjectOpen ? (
-              <Dialog
-                className={classes.dialog}
-                open={opens}
-                onClose={handleCloses}
-              >
-                <DialogTitle id="alert-dialog-title">
-                  <h4 style={{
-                    paddingLeft: "50px",
-                  }}
-                  >
-                    Add Name
-                  </h4>
-                </DialogTitle>
-                <DialogContent>
-                  <TextField fullWidth label="Tittle" value={name} onChange={handleText} />
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={addHandler} variant="contained" color="success" sx={{ margin: "10px", float: "right" }}>Add</Button>
-                </DialogActions>
-              </Dialog>
-            ) : null}
+            {ProjectButton ? (projectTittles.map((item) => <Button className={classes.button2} onClick={() => projectPage(item)}>{item.name}</Button>)) : null}
           </div>
           <div style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            height: "100%",
-            gap: "10px",
+            width: "70%",
           }}
           >
             {isProjectPage ? (
@@ -328,6 +360,8 @@ function Home() {
                     display: "flex",
                     alignItems: "center",
                     paddingLeft: "5%",
+                    width: "95%",
+
                   }}
                 >
                   <h2>{projectAdd.name}</h2>
@@ -337,63 +371,92 @@ function Home() {
                   flexDirection: "column",
                   marginLeft: "20px",
                   marginTop: "10px",
-                  width: "60%",
                 }}
                 >
                   <ProjectListView projectList={projectTittle} />
-                  <Button
-                    onClick={handleClickOpen}
-                    className={classes.button4}
+                  <div style={{
+                    width: "60%",
+                  }}
                   >
-                    <AddIcon />
-                    Add Task
-                  </Button>
+                    <Button
+                      onClick={handleClickOpen}
+                      className={classes.button4}
+                    >
+                      <AddIcon />
+                      Add Task
+                    </Button>
+                  </div>
                 </div>
 
               </>
 
             ) : (
-              <>
-                <div
-                  style={{
-                    borderBottom: "1px solid black",
-                    minHeight: "40px",
-                    display: "flex",
-                    alignItems: "center",
-                    marginLeft: "5px",
-                    paddingLeft: "80%",
-                  }}
-                >
-                  <Button
-                    onClick={handleClickOpen}
-                    variant="outlined"
-                    className={classes.button3}
-                  >
-                    <AddIcon />
-                    Add Task
-                  </Button>
-                </div>
-                <div
-                  style={{
-                    width: "100%",
-                    overflow: "scroll",
-                  }}
-                >
-                  {isopen ? (
-                    <ListTask />
-                  ) : ("")}
-                  {isToday ? (<TodayDate />) : null}
-                  {isUpCome ? (<UpcomingTask upCome={isTodayDate} />) : null}
-                  {selectors ? (<PrioritySelector priorityChange={isPriority} />) : null}
-                </div>
-              </>
+              <div
+                style={{
+                  width: "100%",
+                  overflow: "scroll",
+                }}
+              >
+                {isopen ? (
+                  <ListTask projectName={passName} />
+                ) : ("")}
+                {isToday ? (<TodayDate />) : null}
+                {isUpCome ? (<UpcomingTask upCome={isTodayDate} />) : null}
+                {selectors ? (<PrioritySelector priorityChange={isPriority} />) : null}
+                {isDelete ? (<Done />) : null}
+              </div>
             )}
           </div>
         </div>
-      )}
-
-    </div>
-
+      </div>
+    </>
   );
 }
 export default Home;
+
+// {open ? (
+//       ) : (
+//         <div style={{
+//           margin: "80px auto",
+//           border: "1px solid black",
+//           width: "60%",
+//           height: "500px",
+//           display: "flex",
+//           gap: "10px",
+//         }}
+//         >
+//
+
+//             ) : null}
+//             {isProjectOpen ? (
+//               <Dialog
+//                 className={classes.dialog}
+//                 open={opens}
+//                 onClose={handleCloses}
+//               >
+//                 <DialogTitle id="alert-dialog-title">
+//                   <h4 style={{
+//                     paddingLeft: "50px",
+//                   }}
+//                   >
+//                     Add Name
+//                   </h4>
+//                 </DialogTitle>
+//                 <DialogContent>
+//                   <TextField fullWidth label="Tittle" value={name} onChange={handleText} />
+//                 </DialogContent>
+//                 <DialogActions>
+//                 </DialogActions>
+//               </Dialog>
+//             ) : null}
+//           </div>
+//           <div style={{
+//             display: "flex",
+//             flexDirection: "column",
+//             width: "100%",
+//             height: "100%",
+//             gap: "10px",
+//           }}
+//           >
+
+//     </div>

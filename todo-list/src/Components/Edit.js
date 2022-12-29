@@ -13,7 +13,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { ToastContainer, toast } from "react-toastify";
 import { todoActions } from "../Store/todo";
+import "react-toastify/dist/ReactToastify.css";
 
 const useStyle = makeStyles({
   containerDiv: {
@@ -41,6 +43,9 @@ const useStyle = makeStyles({
     marginBottom: "15px",
     marginLeft: "20px",
     height: "10%",
+    display: "flex",
+    paddingLeft: "48%",
+    gap: "10px",
   },
   textFiled: {
     width: "100%",
@@ -90,15 +95,17 @@ function Edit(props) {
         tittle,
         description,
         id: props.editList,
-        date: new Date(value).toLocaleDateString(),
+        date: new Date(value),
         priority,
       }));
+      toast("Task is Edited successfully");
     }
   };
   const classes = useStyle();
 
   return (
     <>
+      <ToastContainer />
       <div className={classes.containerDiv}>
         <TextField className={classes.textFiled} placeholder="Add Tittle" value={tittle} onChange={tittleHandler} />
         <TextField
@@ -136,6 +143,7 @@ function Edit(props) {
         </div>
       </div>
       <div className={classes.buttonDiv}>
+        <Button className={classes.button} variant="outlined" onClick={props.handClose}>close</Button>
         <Button className={classes.button} variant="outlined" onClick={editHandler}>Edit Task</Button>
       </div>
     </>

@@ -11,7 +11,7 @@ import { todoActions } from "../Store/todo";
 function ProjectListView(props) {
   const task = useSelector((state) => state.todos.todos);
   const dispatch = useDispatch();
-
+  console.log(props);
   // eslint-disable-next-line no-debugger
   //   debugger;
   const d = task.filter((v) => {
@@ -21,6 +21,7 @@ function ProjectListView(props) {
     }
     return false;
   });
+  console.log(d);
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState();
   const [currentRadioValue, setCurrentRadioValue] = React.useState();
