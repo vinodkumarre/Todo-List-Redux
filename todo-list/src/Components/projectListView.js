@@ -5,15 +5,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import Dialog from "@mui/material/Dialog";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Edit from "./Edit";
+
 import { todoActions } from "../Store/todo";
+import { doneActions } from "../Store/doneReducer";
 
 function ProjectListView(props) {
   const task = useSelector((state) => state.todos.todos);
   const dispatch = useDispatch();
   console.log(props);
   // eslint-disable-next-line no-debugger
-  //   debugger;
   const d = task.filter((v) => {
     const fu = props.projectList && props.projectList.find((f) => f.id === v.id);
     if (fu) {
@@ -37,59 +40,61 @@ function ProjectListView(props) {
   const handleRadioChange = (e) => {
     setCurrentRadioValue(e);
     dispatch(todoActions.deleteUser(e));
+    dispatch(doneActions.doneUser(e));
+    toast("Task moved to Done Section Successfully");
   };
 
   return (
     <div>
-      {open ? (
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+      {d.map((todo) => (
+        <div
+          key={todo.id}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderBottom: "0.5px solid black",
+            marginLeft: "15px",
+            marginTop: "15px",
+            height: "60px",
+          }}
         >
-          <Edit editList={edit} />
-        </Dialog>
-      ) : (
-        d.map((todo) => (
-          <div
-            key={todo.id}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              borderBottom: "0.5px solid black",
-
-            }}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "20px",
+          }}
           >
+            <div>
+              <input type="radio" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo.id)} style={{ width: "30px", height: "30px" }} />
+            </div>
             <div style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "20px",
+              display: "flex", flexDirection: "column", gap: "4px",
             }}
             >
-              <div>
-                <input type="radio" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo.id)} style={{ width: "30px", height: "30px" }} />
-              </div>
-              <div style={{
-                display: "flex", flexDirection: "column", gap: "9px",
-              }}
-              >
-                <span style={{ fontSize: "xx-large" }}>
-                  {todo.tittle}
-                </span>
-                <input style={{ marginBottom: "10px" }} value={todo.date} />
-              </div>
-            </div>
-            <div style={{ paddingRight: "10px" }}>
-              <Button onClick={() => handleClickOpen(todo.id)}>
-                <ModeEditOutlineOutlinedIcon />
-              </Button>
+              <span style={{ fontSize: "x-large" }}>
+                {todo.tittle}
+              </span>
+              <input style={{ marginBottom: "10px" }} value={todo.date} />
             </div>
           </div>
-        ))
-      ) }
+          <div style={{ paddingRight: "10px" }}>
+            <Button onClick={() => handleClickOpen(todo.id)}>
+              <ModeEditOutlineOutlinedIcon />
+            </Button>
+          </div>
+        </div>
+      ))}
+      <ToastContainer />
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <Edit editList={edit} handClose={handleClose} />
+      </Dialog>
     </div>
 
   );

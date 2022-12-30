@@ -22,10 +22,14 @@ import Badge from "@mui/material/Badge";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import Select from "@mui/material/Select";
 import Modal from "@mui/material/Modal";
+import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
+import HomeIcon from "@mui/icons-material/Home";
+import MenuIcon from "@mui/icons-material/Menu";
 import AddTask from "./AddTask";
 import TodayDate from "./TodayDate";
 import { projectActions } from "../Store/project";
@@ -41,7 +45,6 @@ const useStyle = makeStyles({
     marginTop: "10px !important",
     width: "100%",
     gap: "80%",
-    backgroundColor: "antiquewhite !important",
     color: "black !important",
     "&:hover": {
       backgroundColor: "lightgrey !important",
@@ -56,7 +59,6 @@ const useStyle = makeStyles({
     width: "100%",
     textAlign: "left",
     color: "black !important",
-    backgroundColor: "antiquewhite !important",
     boxShadow: "none",
     "&:hover": {
       backgroundColor: "lightgrey !important",
@@ -90,13 +92,14 @@ const useStyle = makeStyles({
     },
   },
   button3: {
+    marginLeft: "70% !important",
     padding: "0px !important",
-    backgroundColor: "#cc5647 !important",
-    color: "white !important",
+    color: "#cc5647 !important",
     paddingRight: "3px !important",
+    backgroundColor: "white !important",
     "&:hover": {
-      backgroundColor: "white !important",
-      color: "#cc5647 !important",
+      color: "white !important",
+      backgroundColor: "#cc5647 !important",
     },
   },
   button4: {
@@ -273,9 +276,12 @@ function Home() {
             minHeight: "50px",
             display: "flex",
             alignItems: "center",
-            paddingLeft: "85%",
+            // paddingLeft: "85%",
+            backgroundColor: "#cc5647",
           }}
         >
+          <MenuIcon sx={{ color: "whitesmoke", paddingLeft: "10px" }} />
+          <HomeIcon sx={{ color: "whitesmoke", paddingLeft: "10px" }} />
           <Button
             onClick={handleClickOpen}
             variant="outlined"
@@ -284,6 +290,15 @@ function Home() {
             <AddIcon />
             Add Task
           </Button>
+          <IconButton
+            size="large"
+            aria-label="show more"
+            aria-haspopup="true"
+            color="white"
+            sx={{ color: "whitesmoke", paddingLeft: "30px" }}
+          >
+            <AccountCircle />
+          </IconButton>
         </div>
         <div style={{
           width: "100%",
@@ -297,7 +312,7 @@ function Home() {
             paddingLeft: "3px",
             paddingRight: "3px",
             boxShadow: "0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-            overflow: "scroll",
+            overflow: "hidden",
           }}
           >
             <Button className={classes.button} onClick={inboxHandler}>
@@ -349,6 +364,7 @@ function Home() {
           </div>
           <div style={{
             width: "70%",
+            overflow: "scroll",
           }}
           >
             {isProjectPage ? (
@@ -361,6 +377,7 @@ function Home() {
                     alignItems: "center",
                     paddingLeft: "5%",
                     width: "95%",
+                    position: "static !important",
 
                   }}
                 >
@@ -371,11 +388,13 @@ function Home() {
                   flexDirection: "column",
                   marginLeft: "20px",
                   marginTop: "10px",
+                  overflow: "scroll",
                 }}
                 >
                   <ProjectListView projectList={projectTittle} />
                   <div style={{
                     width: "60%",
+                    marginBottom: "10px",
                   }}
                   >
                     <Button
@@ -394,7 +413,6 @@ function Home() {
               <div
                 style={{
                   width: "100%",
-                  overflow: "scroll",
                 }}
               >
                 {isopen ? (
