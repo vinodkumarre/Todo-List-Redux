@@ -49,17 +49,23 @@ const useStyle = makeStyles({
   containerDiv: {
     height: "40%",
     marginTop: "15px",
+    marginLeft: "20px",
+    marginRight: "20px",
     width: "90%",
     display: "block",
     border: "1px solid black",
     borderRadius: "15px",
-    backgroundColor: "whiteSmoke",
+    backgroundColor: "whitesmoke",
   },
   buttonDiv: {
     width: "90%",
     marginTop: "15px",
     marginBottom: "15px",
+    marginLeft: "20px",
     height: "10%",
+    display: "flex",
+    paddingLeft: "53%",
+    gap: "10px",
   },
 
 });
@@ -163,24 +169,23 @@ function AddTask(props) {
             </Select>
           </FormControl>
         </div>
-      </div>
-      <div className={classes.buttonDiv}>
-        <Button
-          className={classes.button}
-          variant="outlined"
-          onClick={addHandler}
-        >
-          Add Task
-        </Button>
-        <Button
-          className={classes.button}
-          variant="outlined"
-          // eslint-disable-next-line react/destructuring-assignment
-          onClick={props.handClose}
-        >
-          close
-        </Button>
-
+        <div className={classes.buttonDiv}>
+          <Button
+            className={classes.button}
+            variant="outlined"
+            // eslint-disable-next-line react/destructuring-assignment
+            onClick={props.handClose}
+          >
+            close
+          </Button>
+          <Button
+            className={classes.button}
+            variant="outlined"
+            onClick={addHandler}
+          >
+            Add Task
+          </Button>
+        </div>
       </div>
     </>
   );

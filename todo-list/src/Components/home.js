@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-props-no-spreading */
 // /* eslint-disable eqeqeq */
@@ -22,10 +23,10 @@ import Badge from "@mui/material/Badge";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import Select from "@mui/material/Select";
 import Modal from "@mui/material/Modal";
 import IconButton from "@mui/material/IconButton";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import Box from "@mui/material/Box";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import HomeIcon from "@mui/icons-material/Home";
@@ -92,7 +93,7 @@ const useStyle = makeStyles({
     },
   },
   button3: {
-    marginLeft: "70% !important",
+    marginLeft: "60% !important",
     padding: "0px !important",
     color: "#cc5647 !important",
     paddingRight: "3px !important",
@@ -117,7 +118,7 @@ const useStyle = makeStyles({
   },
 });
 
-function Home() {
+function Home(props) {
   const task = useSelector((state) => state.todos.todos);
   const doneCount = useSelector((state) => state.done.done);
   const projectTittles = useSelector((state) => state.project.names);
@@ -290,20 +291,34 @@ function Home() {
             <AddIcon />
             Add Task
           </Button>
+          {/* <input
+            style={{
+              border: "none", width: "40px", paddingLeft: "10px", marginLeft: "40px",
+            }}
+            value={props.cor.givenName}
+          /> */}
+          <h4 style={{
+            border: "none", width: "40px", paddingLeft: "10px", marginLeft: "40px", color: "whitesmoke",
+          }}
+          >
+            {props.cor.givenName}
+
+          </h4>
           <IconButton
             size="large"
             aria-label="show more"
             aria-haspopup="true"
             color="white"
-            sx={{ color: "whitesmoke", paddingLeft: "30px" }}
+            sx={{ color: "whitesmoke", marginLeft: "20px" }}
           >
-            <AccountCircle />
+            <AccountCircle label={props.cor.givenName.charAt(0)} />
+            {/* <Avatar sx={{ backgroundColor: "black !important" }}>{props.cor.givenName.charAt(0)}</Avatar> */}
           </IconButton>
         </div>
         <div style={{
           width: "100%",
           display: "flex",
-          height: "450px",
+          height: "437px",
           gap: "10px",
         }}
         >
