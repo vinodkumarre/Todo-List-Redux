@@ -76,7 +76,13 @@ function ProjectListView(props) {
               <span style={{ fontSize: "x-large" }}>
                 {todo.tittle}
               </span>
-              <input style={{ marginBottom: "10px" }} value={todo.date} />
+              <div style={{
+                display: "flex", gap: "40px", alignItems: "center", height: "20px",
+              }}
+              >
+                <input style={{ width: "70px", height: "20px" }} value={todo.date} />
+                <h4>{props.projectName}</h4>
+              </div>
             </div>
           </div>
           <div style={{ paddingRight: "10px" }}>
