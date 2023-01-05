@@ -81,7 +81,7 @@ function ProjectListView(props) {
               }}
               >
                 <input style={{ width: "70px", height: "20px" }} value={todo.date} />
-                <h4>{props.projectName}</h4>
+                <h4>{props.projectList}</h4>
               </div>
             </div>
           </div>
