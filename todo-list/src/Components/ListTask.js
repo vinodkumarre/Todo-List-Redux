@@ -11,7 +11,7 @@ import { doneActions } from "../Store/doneReducer";
 
 import "react-toastify/dist/ReactToastify.css";
 
-function ListTask(props) {
+function ListTask() {
   const task = useSelector((state) => state.todos.todos);
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState();
@@ -70,7 +70,6 @@ function ListTask(props) {
               }}
               >
                 <input style={{ width: "70px", height: "20px" }} value={todo.date && todo.date.toLocaleDateString()} />
-                <h4>{props.projectName}</h4>
               </div>
 
             </div>

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
@@ -23,7 +24,7 @@ function TodayDate() {
     setCurrentRadioValue(e);
     dispatch(todoActions.deleteUser(e));
   };
-  const newTask = task.filter((t) => t.date === new Date().toLocaleDateString());
+  const newTask = task.filter((t) => t.date.toLocaleDateString() === new Date().toLocaleDateString());
 
   return (
     <div>

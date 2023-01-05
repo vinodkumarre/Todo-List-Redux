@@ -188,7 +188,7 @@ function Home(props) {
   const handleCelander = (e) => {
     setValue(e);
     if (e !== "") {
-      const newList = task.filter((t) => t.date === new Date(e).toLocaleDateString());
+      const newList = task.filter((t) => t.date.toLocaleDateString() === new Date(e).toLocaleDateString());
       setIsUpCome(true);
       setIsOpen(false);
       setSelectors(false);
@@ -431,7 +431,7 @@ function Home(props) {
                 }}
               >
                 {isopen ? (
-                  <ListTask projectName={passName} />
+                  <ListTask />
                 ) : ("")}
                 {isToday ? (<TodayDate />) : null}
                 {isUpCome ? (<UpcomingTask upCome={isTodayDate} />) : null}
@@ -446,6 +446,7 @@ function Home(props) {
   );
 }
 export default Home;
+// projectName={passName}
 
 // {open ? (
 //       ) : (
