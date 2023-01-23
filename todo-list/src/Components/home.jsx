@@ -1,10 +1,5 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable max-len */
 /* eslint-disable react/jsx-props-no-spreading */
-// /* eslint-disable eqeqeq */
-// /* eslint-disable no-restricted-globals */
-// /* eslint-disable react/jsx-props-no-spreading */
-// /* eslint-disable max-len */
+/* eslint-disable react/destructuring-assignment */
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
@@ -17,6 +12,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import DialogActions from "@mui/material/DialogActions";
 import AddIcon from "@mui/icons-material/Add";
 import DialogContent from "@mui/material/DialogContent";
+import Avatar from "@mui/material/Avatar";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Badge from "@mui/material/Badge";
@@ -26,7 +22,6 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Modal from "@mui/material/Modal";
 import IconButton from "@mui/material/IconButton";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import Box from "@mui/material/Box";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import HomeIcon from "@mui/icons-material/Home";
@@ -119,6 +114,7 @@ const useStyle = makeStyles({
 });
 
 function Home(props) {
+  console.log(props);
   const task = useSelector((state) => state.todos.todos);
   const doneCount = useSelector((state) => state.done.done);
   const projectTittles = useSelector((state) => state.project.names);
@@ -188,7 +184,9 @@ function Home(props) {
   const handleCelander = (e) => {
     setValue(e);
     if (e !== "") {
-      const newList = task.filter((t) => t.date.toLocaleDateString() === new Date(e).toLocaleDateString());
+      const newList = task.filter(
+        (t) => t.date.toLocaleDateString() === new Date(e).toLocaleDateString(),
+      );
       setIsUpCome(true);
       setIsOpen(false);
       setSelectors(false);
@@ -277,7 +275,6 @@ function Home(props) {
             minHeight: "50px",
             display: "flex",
             alignItems: "center",
-            // paddingLeft: "85%",
             backgroundColor: "#cc5647",
           }}
         >
@@ -291,14 +288,12 @@ function Home(props) {
             <AddIcon />
             Add Task
           </Button>
-          {/* <input
-            style={{
-              border: "none", width: "40px", paddingLeft: "10px", marginLeft: "40px",
-            }}
-            value={props.cor.givenName}
-          /> */}
           <h4 style={{
-            border: "none", width: "40px", paddingLeft: "10px", marginLeft: "40px", color: "whitesmoke",
+            border: "none",
+            width: "40px",
+            paddingLeft: "10px",
+            marginLeft: "40px",
+            color: "whitesmoke",
           }}
           >
             {props.cor.givenName}
@@ -311,8 +306,12 @@ function Home(props) {
             color="white"
             sx={{ color: "whitesmoke", marginLeft: "20px" }}
           >
-            <AccountCircle label={props.cor.givenName.charAt(0)} />
-            {/* <Avatar sx={{ backgroundColor: "black !important" }}>{props.cor.givenName.charAt(0)}</Avatar> */}
+            <Avatar
+              sx={{ backgroundColor: "#cc5647 !important", border: "1px solid black" }}
+            >
+              {props.cor.givenName.charAt(0)}
+
+            </Avatar>
           </IconButton>
         </div>
         <div style={{
@@ -375,7 +374,15 @@ function Home(props) {
               {" "}
               <AddCircleOutlinedIcon onClick={projectHandler} />
             </Button>
-            {ProjectButton ? (projectTittles.map((item) => <Button className={classes.button2} onClick={() => projectPage(item)}>{item.name}</Button>)) : null}
+            {ProjectButton
+              ? (projectTittles.map(
+                (item) => (
+                  <Button className={classes.button2} onClick={() => projectPage(item)}>
+                    {item.name}
+                  </Button>
+                ),
+              ))
+              : null}
           </div>
           <div style={{
             width: "70%",
@@ -446,51 +453,3 @@ function Home(props) {
   );
 }
 export default Home;
-// projectName={passName}
-
-// {open ? (
-//       ) : (
-//         <div style={{
-//           margin: "80px auto",
-//           border: "1px solid black",
-//           width: "60%",
-//           height: "500px",
-//           display: "flex",
-//           gap: "10px",
-//         }}
-//         >
-//
-
-//             ) : null}
-//             {isProjectOpen ? (
-//               <Dialog
-//                 className={classes.dialog}
-//                 open={opens}
-//                 onClose={handleCloses}
-//               >
-//                 <DialogTitle id="alert-dialog-title">
-//                   <h4 style={{
-//                     paddingLeft: "50px",
-//                   }}
-//                   >
-//                     Add Name
-//                   </h4>
-//                 </DialogTitle>
-//                 <DialogContent>
-//                   <TextField fullWidth label="Tittle" value={name} onChange={handleText} />
-//                 </DialogContent>
-//                 <DialogActions>
-//                 </DialogActions>
-//               </Dialog>
-//             ) : null}
-//           </div>
-//           <div style={{
-//             display: "flex",
-//             flexDirection: "column",
-//             width: "100%",
-//             height: "100%",
-//             gap: "10px",
-//           }}
-//           >
-
-//     </div>

@@ -16,7 +16,6 @@ function ProjectListView(props) {
   const task = useSelector((state) => state.todos.todos);
   const dispatch = useDispatch();
   console.log(props);
-  // eslint-disable-next-line no-debugger
   const d = task.filter((v) => {
     const fu = props.projectList && props.projectList.find((f) => f.id === v.id);
     if (fu) {
