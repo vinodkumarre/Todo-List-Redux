@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React from "react";
 import { useDispatch } from "react-redux";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
@@ -5,6 +6,7 @@ import { Button } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import Edit from "./Edit";
 import { todoActions } from "../Store/todo";
+import { doneActions } from "../Store/doneReducer";
 
 function PrioritySelector(props) {
   const [open, setOpen] = React.useState(false);
@@ -19,34 +21,24 @@ function PrioritySelector(props) {
     setOpen(false);
   };
   const handleRadioChange = (e) => {
-    setCurrentRadioValue(e);
-    dispatch(todoActions.deleteUser(e));
+    setCurrentRadioValue(e.id);
+    dispatch(todoActions.deleteUser(e.id));
+    dispatch(doneActions.doneUser(e));
     console.log(e);
   };
-  console.log(props);
   return (
     <div>
-      {open ? (
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <Edit editList={edit} />
-        </Dialog>
-      // eslint-disable-next-line react/destructuring-assignment
-      ) : (props.priorityChange.map((todo) => (
+      {props.priorityChange.map((todo) => (
         <div
           key={todo.id}
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            marginLeft: "20px",
-            marginTop: "10px",
             borderBottom: "0.5px solid black",
-            backgroundColor: "antiquewhite",
+            marginLeft: "15px",
+            marginTop: "15px",
+            height: "60px",
           }}
         >
           <div style={{
@@ -57,16 +49,22 @@ function PrioritySelector(props) {
           }}
           >
             <div>
-              <input type="radio" style={{ width: "30px", height: "30px" }} value={currentRadioValue} onClick={() => handleRadioChange(todo.id)} />
+              <input type="radio" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo)} style={{ width: "30px", height: "30px" }} />
             </div>
             <div style={{
-              display: "flex", flexDirection: "column", gap: "9px",
+              display: "flex", flexDirection: "column", gap: "4px",
             }}
             >
-              <span style={{ fontSize: "xx-large" }}>
+              <span style={{ fontSize: "x-large" }}>
                 {todo.tittle}
               </span>
-              <input value={todo.date} />
+              <div style={{
+                display: "flex", gap: "40px", alignItems: "center", height: "20px",
+              }}
+              >
+                <input style={{ width: "70px", height: "20px" }} value={todo.date && todo.date.toLocaleDateString()} />
+              </div>
+
             </div>
           </div>
           <div style={{ paddingRight: "10px" }}>
@@ -75,7 +73,15 @@ function PrioritySelector(props) {
             </Button>
           </div>
         </div>
-      )))}
+      ))}
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <Edit editList={edit} handClose={handleClose} />
+      </Dialog>
 
     </div>
 
