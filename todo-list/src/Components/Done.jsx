@@ -20,6 +20,9 @@ function Done() {
           alignItems: "center",
           justifyContent: "space-between",
           borderBottom: "0.5px solid black",
+          marginLeft: "15px",
+          marginTop: "15px",
+          height: "60px",
         }}
       >
         <div style={{
@@ -33,13 +36,19 @@ function Done() {
             <input type="radio" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo)} style={{ width: "30px", height: "30px" }} />
           </div>
           <div style={{
-            display: "flex", flexDirection: "column", gap: "9px",
+            display: "flex", flexDirection: "column", gap: "4px",
           }}
           >
-            <span style={{ fontSize: "xx-large" }}>
+            <span style={{ fontSize: "x-large" }}>
               {todo.tittle}
             </span>
-            <input style={{ marginBottom: "10px" }} value={todo.date && todo.date.toLocaleDateString()} />
+            <div style={{
+              display: "flex", gap: "40px", alignItems: "center", height: "20px",
+            }}
+            >
+              <input style={{ width: "70px", height: "20px" }} value={todo.date && todo.date.toLocaleDateString()} />
+            </div>
+
           </div>
         </div>
       </div>

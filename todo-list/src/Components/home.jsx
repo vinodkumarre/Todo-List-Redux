@@ -166,9 +166,11 @@ function Home(props) {
     setIsUpCome(false);
     setCalender(false);
     setValue("");
+    setPriority("");
     setProjectButton(false);
     setSelectors(false);
     setIsProjectPage(false);
+    setIsDelete(false);
   };
   const inboxHandler = () => {
     setIsOpen(true);
@@ -176,6 +178,7 @@ function Home(props) {
     setIsUpCome(false);
     setCalender(false);
     setValue("");
+    setPriority("");
     setProjectButton(false);
     setSelectors(false);
     setIsProjectPage(false);
@@ -191,6 +194,8 @@ function Home(props) {
       setIsOpen(false);
       setSelectors(false);
       setIsTodayDate(newList);
+      setPriority("");
+      setIsDelete(false);
     }
   };
   const handleChange = (e) => {
@@ -201,6 +206,7 @@ function Home(props) {
       setIsOpen(false);
       setSelectors(true);
       setIsPriority(newList);
+      setIsDelete(false);
     }
   };
   const filterHandler = () => {
@@ -221,6 +227,14 @@ function Home(props) {
   const setHandler = () => {
     setIsDelete(true);
     setIsOpen(false);
+    setIsToday(false);
+    setIsUpCome(false);
+    setCalender(false);
+    setValue("");
+    setPriority("");
+    setProjectButton(false);
+    setSelectors(false);
+    setIsProjectPage(false);
   };
   const classes = useStyle();
 
@@ -439,7 +453,7 @@ function Home(props) {
               >
                 {isopen ? (
                   <ListTask />
-                ) : ("")}
+                ) : null}
                 {isToday ? (<TodayDate />) : null}
                 {isUpCome ? (<UpcomingTask upCome={isTodayDate} />) : null}
                 {selectors ? (<PrioritySelector priorityChange={isPriority} />) : null}

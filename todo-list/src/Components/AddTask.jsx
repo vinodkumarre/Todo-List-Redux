@@ -104,6 +104,7 @@ function AddTask(props) {
       setTittle("");
       setValue("");
       setIsDate("");
+      setPriority("");
       dispatch(projectActions.projectAddUser({
         // eslint-disable-next-line react/destructuring-assignment
         name: props.headTittle,
