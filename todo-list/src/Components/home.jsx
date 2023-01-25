@@ -1,7 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/no-array-index-key */
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import { makeStyles } from "@mui/styles";
@@ -88,7 +88,17 @@ const useStyle = makeStyles({
     },
   },
   button3: {
-    marginLeft: "60% !important",
+    marginLeft: "58% !important",
+    padding: "0px !important",
+    color: "#cc5647 !important",
+    paddingRight: "3px !important",
+    backgroundColor: "white !important",
+    "&:hover": {
+      color: "white !important",
+      backgroundColor: "#cc5647 !important",
+    },
+  },
+  button1: {
     padding: "0px !important",
     color: "#cc5647 !important",
     paddingRight: "3px !important",
@@ -114,7 +124,8 @@ const useStyle = makeStyles({
 });
 
 function Home(props) {
-  console.log(props);
+  const classes = useStyle();
+  const navigate = useNavigate();
   const task = useSelector((state) => state.todos.todos);
   const doneCount = useSelector((state) => state.done.done);
   const projectTittles = useSelector((state) => state.project.names);
@@ -127,7 +138,7 @@ function Home(props) {
   const [isUpCome, setIsUpCome] = React.useState(false);
   const [ProjectButton, setProjectButton] = React.useState(false);
   const [isProjectPage, setIsProjectPage] = React.useState(false);
-  const [projectTittle, setProjectTittle] = React.useState();
+  // const [projectTittle, setProjectTittle] = React.useState();
   const [projectAdd, setProjectAdd] = React.useState();
   const [isPriority, setIsPriority] = React.useState();
   const [selectors, setSelectors] = React.useState(false);
@@ -221,7 +232,7 @@ function Home(props) {
   const projectPage = (e) => {
     setProjectAdd(e);
     setPassName(e.name);
-    setProjectTittle(e.todos);
+    // setProjectTittle(e.todos);
     setIsProjectPage(true);
   };
   const setHandler = () => {
@@ -236,8 +247,9 @@ function Home(props) {
     setSelectors(false);
     setIsProjectPage(false);
   };
-  const classes = useStyle();
-
+  const handlerBack = () => {
+    navigate("/");
+  };
   return (
     <>
       <Modal
@@ -260,14 +272,7 @@ function Home(props) {
         open={opens}
         onClose={handleCloses}
       >
-        <DialogTitle id="alert-dialog-title">
-          <h4 style={{
-            paddingLeft: "50px",
-          }}
-          >
-            Add Name
-          </h4>
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title" sx={{ paddingLeft: "50px", fontSize: "xx-large", marginTop: "10px" }}>Add Tittle</DialogTitle>
         <DialogContent>
           <TextField fullWidth label="Tittle" value={name} onChange={handleText} />
         </DialogContent>
@@ -305,8 +310,7 @@ function Home(props) {
           <h4 style={{
             border: "none",
             width: "40px",
-            paddingLeft: "10px",
-            marginLeft: "40px",
+            marginLeft: "10px",
             color: "whitesmoke",
           }}
           >
@@ -318,7 +322,7 @@ function Home(props) {
             aria-label="show more"
             aria-haspopup="true"
             color="white"
-            sx={{ color: "whitesmoke", marginLeft: "20px" }}
+            sx={{ color: "whitesmoke" }}
           >
             <Avatar
               sx={{ backgroundColor: "#cc5647 !important", border: "1px solid black" }}
@@ -327,6 +331,14 @@ function Home(props) {
 
             </Avatar>
           </IconButton>
+          <Button
+            variant="outlined"
+            className={classes.button1}
+            onClick={handlerBack}
+          >
+            sign Out
+
+          </Button>
         </div>
         <div style={{
           width: "100%",
@@ -390,8 +402,12 @@ function Home(props) {
             </Button>
             {ProjectButton
               ? (projectTittles.map(
-                (item) => (
-                  <Button className={classes.button2} onClick={() => projectPage(item)}>
+                (item, index) => (
+                  <Button
+                    key={index}
+                    className={classes.button2}
+                    onClick={() => projectPage(item)}
+                  >
                     {item.name}
                   </Button>
                 ),
@@ -427,7 +443,7 @@ function Home(props) {
                   overflow: "scroll",
                 }}
                 >
-                  <ProjectListView projectList={projectTittle} />
+                  <ProjectListView projectList={projectAdd} />
                   <div style={{
                     width: "60%",
                     marginBottom: "10px",

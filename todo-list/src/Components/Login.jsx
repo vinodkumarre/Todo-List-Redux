@@ -1,5 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/button-has-type */
 import { makeStyles } from "@mui/styles";
 import React from "react";
 import { GoogleLogin } from "react-google-login";
@@ -17,8 +15,8 @@ const useStyle = makeStyles({
 function Login(props) {
   const navigate = useNavigate();
   const onSuccess = (res) => {
-    navigate("/home");
     props.tor(res.profileObj);
+    navigate("/home");
     return res.profileObj;
   };
   const onFailure = (res) => res;
@@ -27,7 +25,6 @@ function Login(props) {
     <div style={{ margin: "20% auto", width: "20%" }}>
       <div id="signInButton" className={classes.rev}>
         <GoogleLogin
-          // sx={{ width: "100%" }}
           clientId={clientId}
           buttonText="login"
           onSuccess={onSuccess}

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialNameState = {
@@ -14,11 +13,8 @@ const projectSlice = createSlice({
       state.names.push(newObject);
     },
     projectAddUser(state, actions) {
-      // eslint-disable-next-line no-debugger
-      // debugger;
       const currentState = current(state.names);
       const itemIndex = currentState.findIndex((item) => item.name === actions.payload.name);
-      console.log(itemIndex);
       if (itemIndex !== -1) {
         const existingItemTodos = currentState[itemIndex].todos;
         const updatedItem = {
@@ -27,7 +23,6 @@ const projectSlice = createSlice({
         };
         const newNames = [...currentState];
         newNames[itemIndex] = updatedItem;
-        console.log(newNames);
         state.names = newNames;
       }
     },

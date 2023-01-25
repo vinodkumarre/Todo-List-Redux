@@ -1,5 +1,3 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable react/destructuring-assignment */
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
@@ -15,15 +13,13 @@ import { doneActions } from "../Store/doneReducer";
 function ProjectListView(props) {
   const task = useSelector((state) => state.todos.todos);
   const dispatch = useDispatch();
-  console.log(props);
   const d = task.filter((v) => {
-    const fu = props.projectList && props.projectList.find((f) => f.id === v.id);
+    const fu = props.projectList.todos && props.projectList.todos.find((f) => f.id === v.id);
     if (fu) {
       return true;
     }
     return false;
   });
-  console.log(d);
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState();
   const [currentRadioValue, setCurrentRadioValue] = React.useState();
@@ -37,8 +33,8 @@ function ProjectListView(props) {
     setOpen(false);
   };
   const handleRadioChange = (e) => {
-    setCurrentRadioValue(e);
-    dispatch(todoActions.deleteUser(e));
+    setCurrentRadioValue(e.id);
+    dispatch(todoActions.deleteUser(e.id));
     dispatch(doneActions.doneUser(e));
     toast("Task moved to Done Section Successfully");
   };
@@ -66,7 +62,7 @@ function ProjectListView(props) {
           }}
           >
             <div>
-              <input type="radio" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo.id)} style={{ width: "30px", height: "30px" }} />
+              <input type="radio" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo)} style={{ width: "30px", height: "30px" }} />
             </div>
             <div style={{
               display: "flex", flexDirection: "column", gap: "4px",
@@ -79,8 +75,7 @@ function ProjectListView(props) {
                 display: "flex", gap: "40px", alignItems: "center", height: "20px",
               }}
               >
-                <input style={{ width: "70px", height: "20px" }} value={todo.date} />
-                <h4>{props.projectList}</h4>
+                <input style={{ width: "70px", height: "20px" }} value={todo.date && todo.date.toLocaleDateString()} />
               </div>
             </div>
           </div>

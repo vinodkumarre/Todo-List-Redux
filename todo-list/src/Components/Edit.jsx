@@ -1,6 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TextField from "@mui/material/TextField";
@@ -60,9 +58,14 @@ const useStyle = makeStyles({
     width: "40% !important",
     "& fieldset": { border: "1px solid #241a1a !important" },
   },
+  div: {
+    display: "flex",
+    gap: "20px",
+  },
 });
 
 function Edit(props) {
+  const classes = useStyle();
   const [tittle, setTittle] = useState("");
   const [description, setDescription] = useState("");
   const [value, setValue] = useState("");
@@ -101,8 +104,6 @@ function Edit(props) {
       toast("Task is Edited successfully");
     }
   };
-  const classes = useStyle();
-
   return (
     <>
       <ToastContainer />
@@ -114,10 +115,8 @@ function Edit(props) {
           placeholder="Description"
           onChange={descriptionHandler}
         />
-        <div style={{
-          display: "flex",
-          gap: "20px",
-        }}
+        <div
+          className={classes.div}
         >
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
