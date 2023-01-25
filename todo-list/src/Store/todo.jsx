@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialUserState = {
@@ -19,12 +18,10 @@ const todoSlice = createSlice({
         ...state.todos[newTodos],
         ...actions.payload,
       };
-      console.log(newTodos);
     },
     deleteUser(state, actions) {
       const currentState = current(state.todos);
       const newTodos = currentState.filter((x) => x.id !== actions.payload);
-      console.log(actions.payload);
       state.todos = newTodos;
     },
   },

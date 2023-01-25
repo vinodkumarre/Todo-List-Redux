@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialUserState = {
@@ -15,7 +14,6 @@ const doneSlice = createSlice({
     doneDeleteUser(state, actions) {
       const currentState = current(state.done);
       const newDone = currentState.filter((x) => x.id !== actions.payload);
-      console.log(actions.payload);
       state.done = newDone;
     },
   },

@@ -25,6 +25,9 @@
         "linebreak-style": 1,
         "quotes": ["error", "double"],
         "react/jsx-filename-extension": [0],
-        "import/extensions": "off"
+        "import/extensions": "off",
+        "react/destructuring-assignment": "off",
+        "no-param-reassign":"off",
+        "react/jsx-props-no-spreading": "off"
     }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { useDispatch } from "react-redux";
@@ -71,6 +70,7 @@ const useStyle = makeStyles({
 });
 
 function AddTask(props) {
+  const classes = useStyle();
   const [tittle, setTittle] = useState("");
   const [description, setDescription] = useState("");
   const [tittleText, setTittleText] = useState("");
@@ -106,20 +106,16 @@ function AddTask(props) {
       setIsDate("");
       setPriority("");
       dispatch(projectActions.projectAddUser({
-        // eslint-disable-next-line react/destructuring-assignment
         name: props.headTittle,
         newTodo: {
-
           id: tempId,
-
         },
       }));
-      toast("Task is add successfully");
+      toast("Task is added successfully");
     } else {
       setTittleText("please enter Tittle");
     }
   };
-  const classes = useStyle();
   return (
     <>
       <ToastContainer />
@@ -174,7 +170,6 @@ function AddTask(props) {
           <Button
             className={classes.button}
             variant="outlined"
-            // eslint-disable-next-line react/destructuring-assignment
             onClick={props.handClose}
           >
             close
