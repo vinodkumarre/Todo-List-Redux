@@ -76,16 +76,20 @@ const useStyle = makeStyles({
 
 function AddTask(props) {
   const classes = useStyle();
-  const [tittle, setTittle] = useState("");
-  const [description, setDescription] = useState("");
   const [tittleText, setTittleText] = useState("");
-  const [value, setValue] = useState("");
-  // const [isDate, setIsDate] = useState("");
-  const [priority, setPriority] = useState("");
+  const [prev, setPrev] = useState({
+    tittle: "",
+    description: "",
+    value: "",
+    priority: "",
+  });
 
   const dispatch = useDispatch();
   const handleText = (e) => {
-    setTittle(e.target.value);
+    setPrev({
+      ...prev,
+      tittle: e.target.value,
+    });
     if (e.target.value !== "") {
       setTittleText("");
     } else {
@@ -93,23 +97,28 @@ function AddTask(props) {
     }
   };
   const handleChange = (event) => {
-    setPriority(event.target.value);
+    setPrev({
+      ...prev,
+      priority: event.target.value,
+    });
   };
   const addHandler = () => {
-    if (tittle !== "") {
+    if (prev.tittle !== "") {
       const tempId = (new Date()).getTime().toString(36);
       dispatch(todoActions.addUser({
-        tittle,
-        description,
+        tittle: prev.tittle,
+        description: prev.description,
         id: tempId,
-        date: new Date(value).toLocaleString(),
-        priority,
+        date: new Date(prev.value).toLocaleString(),
+        priority: prev.priority,
       }));
-      setDescription("");
-      setTittle("");
-      setValue("");
-      // setIsDate("");
-      setPriority("");
+      setPrev({
+        tittle: "",
+        description: "",
+        value: "",
+        priority: "",
+
+      });
       dispatch(projectActions.projectAddUser({
         name: props.headTittle,
         newTodo: {
@@ -128,22 +137,28 @@ function AddTask(props) {
         <TextField
           className={classes.textFiled}
           placeholder="Add Tittle"
-          value={tittle}
+          value={prev.tittle}
           onChange={handleText}
           helperText={tittleText}
         />
         <TextField
           className={classes.textFiled}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={prev.description}
+          onChange={(e) => setPrev({
+            ...prev,
+            description: e.target.value,
+          })}
           placeholder="Description"
         />
         <div className={classes.div}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              value={value}
+              value={prev.value}
               onChange={(newValue) => {
-                setValue(newValue);
+                setPrev({
+                  ...prev,
+                  value: newValue,
+                });
               }}
               renderInput={(params) => (
                 <TextField
@@ -157,7 +172,7 @@ function AddTask(props) {
           <FormControl className={classes.dateTextFiled1}>
             <InputLabel> Select priority </InputLabel>
             <Select
-              value={priority}
+              value={prev.priority}
               onChange={handleChange}
             >
               <MenuItem value="priority1">priority1</MenuItem>

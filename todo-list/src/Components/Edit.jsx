@@ -65,10 +65,12 @@ const useStyle = makeStyles({
 
 function Edit(props) {
   const classes = useStyle();
-  const [tittle, setTittle] = useState("");
-  const [description, setDescription] = useState("");
-  const [value, setValue] = useState("");
-  const [priority, setPriority] = React.useState("");
+  const [prev, setPrev] = useState({
+    tittle: "",
+    description: "",
+    value: "",
+    priority: "",
+  });
   const dispatch = useDispatch();
 
   const listItem = useSelector((state) => state.todos.todos);
@@ -76,29 +78,40 @@ function Edit(props) {
   const list = listItem.filter((todoItem) => todoItem.id === props.editList);
   useEffect(() => {
     if (list) {
-      setDescription(list[0].description);
-      setTittle(list[0].tittle);
-      setValue(list[0].date);
-      setPriority(list[0].priority);
+      setPrev({
+        tittle: list[0].tittle,
+        description: list[0].description,
+        value: list[0].date,
+        priority: list[0].priority,
+      });
     }
   }, []);
   const tittleHandler = (e) => {
-    setTittle(e.target.value);
+    setPrev({
+      ...prev,
+      tittle: e.target.value,
+    });
   };
   const descriptionHandler = (e) => {
-    setDescription(e.target.value);
+    setPrev({
+      ...prev,
+      description: e.target.value,
+    });
   };
   const handleChange = (event) => {
-    setPriority(event.target.value);
+    setPrev({
+      ...prev,
+      priority: event.target.value,
+    });
   };
   const editHandler = () => {
-    if (tittle !== "") {
+    if (prev.tittle !== "") {
       dispatch(todoActions.editUser({
-        tittle,
-        description,
+        tittle: prev.tittle,
+        description: prev.description,
         id: props.editList,
-        date: new Date(value).toLocaleString(),
-        priority,
+        date: new Date(prev.value).toLocaleString(),
+        priority: prev.priority,
       }));
       toast("Task is Edited successfully");
     }
@@ -107,10 +120,10 @@ function Edit(props) {
     <>
       <ToastContainer />
       <div className={classes.containerDiv}>
-        <TextField className={classes.textFiled} placeholder="Add Tittle" value={tittle} onChange={tittleHandler} />
+        <TextField className={classes.textFiled} placeholder="Add Tittle" value={prev.tittle} onChange={tittleHandler} />
         <TextField
           className={classes.textFiled}
-          value={description}
+          value={prev.description}
           placeholder="Description"
           onChange={descriptionHandler}
         />
@@ -119,9 +132,12 @@ function Edit(props) {
         >
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              value={new Date(value)}
+              value={new Date(prev.value)}
               onChange={(newValue) => {
-                setValue(newValue);
+                setPrev({
+                  ...prev,
+                  value: newValue,
+                });
               }}
               renderInput={(params) => <TextField {...params} className={classes.dateTextFiled} />}
             />
@@ -129,7 +145,7 @@ function Edit(props) {
           <FormControl className={classes.dateTextFiled}>
             <InputLabel />
             <Select
-              value={priority}
+              value={prev.priority}
               onChange={handleChange}
             >
               <MenuItem value="priority1">priority1</MenuItem>
