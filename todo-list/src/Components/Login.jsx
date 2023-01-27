@@ -11,6 +11,10 @@ const useStyle = makeStyles({
       width: "100%",
     },
   },
+  div: {
+    margin: "20% auto", width: "20%",
+
+  },
 });
 function Login(props) {
   const navigate = useNavigate();
@@ -22,7 +26,7 @@ function Login(props) {
   const onFailure = (res) => res;
   const classes = useStyle();
   return (
-    <div style={{ margin: "20% auto", width: "20%" }}>
+    <div className={classes.div}>
       <div id="signInButton" className={classes.rev}>
         <GoogleLogin
           clientId={clientId}

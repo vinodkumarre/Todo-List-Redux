@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TextField from "@mui/material/TextField";
@@ -12,7 +11,7 @@ import Select from "@mui/material/Select";
 import { Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { ToastContainer, toast } from "react-toastify";
-import { todoActions } from "../Store/todo";
+import { todoActions } from "../Store/Todo";
 import "react-toastify/dist/ReactToastify.css";
 
 const useStyle = makeStyles({
@@ -98,7 +97,7 @@ function Edit(props) {
         tittle,
         description,
         id: props.editList,
-        date: new Date(value),
+        date: new Date(value).toLocaleString(),
         priority,
       }));
       toast("Task is Edited successfully");

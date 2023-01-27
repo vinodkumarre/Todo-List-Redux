@@ -55,7 +55,7 @@ function Done() {
             >
               <input
                 className={classes.input}
-                value={todo.date && todo.date.toLocaleDateString()}
+                value={todo.date && todo.date}
               />
             </div>
           </div>
