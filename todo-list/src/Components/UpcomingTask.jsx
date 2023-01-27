@@ -5,8 +5,8 @@ import { Button } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import { makeStyles } from "@mui/styles";
 import Edit from "./Edit";
-import { todoActions } from "../Store/todo";
-import { doneActions } from "../Store/doneReducer";
+import { todoActions } from "../Store/Todo";
+import { doneActions } from "../Store/DoneReducer";
 
 const useStyles = makeStyles({
   container: {
@@ -35,6 +35,14 @@ const useStyles = makeStyles({
   },
   buttonDiv: {
     paddingRight: "10px",
+  },
+  dateList: {
+    width: "70px", height: "20px",
+
+  },
+  check: {
+    width: "30px", height: "30px",
+
   },
 
 });
@@ -67,14 +75,17 @@ function UpcomingTask(props) {
         >
           <div className={classes.subContainer}>
             <div>
-              <input type="checked" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo)} style={{ width: "30px", height: "30px" }} />
+              <input type="checkBox" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo)} className={classes.check} />
             </div>
             <div className={classes.subDiv}>
               <span className={classes.span}>
                 {todo.tittle}
               </span>
               <div className={classes.div}>
-                <input style={{ width: "70px", height: "20px" }} value={todo.date && todo.date.toLocaleDateString()} />
+                <input
+                  className={classes.dateList}
+                  value={todo.date && todo.date}
+                />
               </div>
             </div>
           </div>

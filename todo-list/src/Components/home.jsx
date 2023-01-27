@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -28,11 +27,11 @@ import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import AddTask from "./AddTask";
 import TodayDate from "./TodayDate";
-import { projectActions } from "../Store/project";
-import ProjectListView from "./projectListView";
+import { projectActions } from "../Store/Project";
+import ProjectListView from "./ProjectListView";
 import ListTask from "./ListTask";
 import UpcomingTask from "./UpcomingTask";
-import PrioritySelector from "./prioritySelector";
+import PrioritySelector from "./PrioritySelector";
 import Done from "./Done";
 
 const useStyle = makeStyles({
@@ -121,6 +120,84 @@ const useStyle = makeStyles({
       color: "#cc5647 !important",
     },
   },
+  modal: {
+    width: "45%",
+    position: "none",
+    margin: "15% auto",
+
+  },
+  divContainer: {
+    margin: "80px auto",
+    border: "1px solid black",
+    width: "60%",
+    height: "500px",
+    gap: "10px",
+  },
+  subContainer: {
+    borderBottom: "1px solid black",
+    minHeight: "50px",
+    display: "flex",
+    alignItems: "center",
+    backgroundColor: "#cc5647",
+  },
+  menu: {
+    color: "whitesmoke", paddingLeft: "10px",
+  },
+  headerName: {
+    border: "none",
+    width: "40px",
+    marginLeft: "10px",
+    color: "whitesmoke",
+  },
+  logoAvatar: {
+    backgroundColor: "#cc5647 !important", border: "1px solid black",
+  },
+  sideBarContainer: {
+    width: "100%",
+    display: "flex",
+    height: "437px",
+    gap: "10px",
+
+  },
+  sideBarSubContainer: {
+    width: "30%",
+    paddingLeft: "3px",
+    paddingRight: "3px",
+    boxShadow: "0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+    overflow: "hidden",
+  },
+  sliderForm: {
+    marginTop: "5px", marginBottom: "10px", border: "none", padding: "0px",
+  },
+  projectDivContainer: {
+    width: "70%",
+    overflow: "scroll",
+  },
+  projectContainer: {
+    borderBottom: "1px solid black",
+    minHeight: "80px",
+    display: "flex",
+    alignItems: "center",
+    paddingLeft: "5%",
+    width: "95%",
+    position: "static !important",
+
+  },
+  projectSubContainer: {
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: "20px",
+    marginTop: "10px",
+    overflow: "scroll",
+
+  },
+  projectListContainer: {
+    width: "60%",
+    marginBottom: "10px",
+  },
+  nonProjectContainer: {
+    width: "100%",
+  },
 });
 
 function Home(props) {
@@ -134,19 +211,19 @@ function Home(props) {
   const [isopen, setIsOpen] = React.useState(true);
   const [isToday, setIsToday] = React.useState(false);
   const [calender, setCalender] = React.useState(false);
-  const [value, setValue] = React.useState("");
   const [isUpCome, setIsUpCome] = React.useState(false);
   const [ProjectButton, setProjectButton] = React.useState(false);
   const [isProjectPage, setIsProjectPage] = React.useState(false);
+  const [selectors, setSelectors] = React.useState(false);
+  const [isDelete, setIsDelete] = React.useState(false);
+  const [value, setValue] = React.useState("");
   // const [projectTittle, setProjectTittle] = React.useState();
   const [projectAdd, setProjectAdd] = React.useState();
   const [isPriority, setIsPriority] = React.useState();
-  const [selectors, setSelectors] = React.useState(false);
   const [isTodayDate, setIsTodayDate] = React.useState();
   const [name, setName] = React.useState("");
   const [passName, setPassName] = React.useState("");
   const [priority, setPriority] = React.useState("");
-  const [isDelete, setIsDelete] = React.useState(false);
   const dispatch = useDispatch();
   const handleText = (e) => {
     setName(e.target.value);
@@ -176,24 +253,24 @@ function Home(props) {
     setIsOpen(false);
     setIsUpCome(false);
     setCalender(false);
-    setValue("");
-    setPriority("");
     setProjectButton(false);
     setSelectors(false);
     setIsProjectPage(false);
     setIsDelete(false);
+    setValue("");
+    setPriority("");
   };
   const inboxHandler = () => {
     setIsOpen(true);
     setIsToday(false);
     setIsUpCome(false);
     setCalender(false);
-    setValue("");
-    setPriority("");
     setProjectButton(false);
     setSelectors(false);
     setIsProjectPage(false);
     setIsDelete(false);
+    setValue("");
+    setPriority("");
   };
   const handleCelander = (e) => {
     setValue(e);
@@ -253,12 +330,7 @@ function Home(props) {
   return (
     <>
       <Modal
-        sx={{
-          width: "45%",
-          // top: "0px !important",
-          position: "none",
-          margin: "15% auto",
-        }}
+        className={classes.modal}
         open={open}
         // onClose={handleClose}
       >
@@ -280,25 +352,10 @@ function Home(props) {
           <Button onClick={addHandler} variant="contained" color="success" sx={{ margin: "10px", float: "right" }}>Add</Button>
         </DialogActions>
       </Dialog>
-      <div style={{
-        margin: "80px auto",
-        border: "1px solid black",
-        width: "60%",
-        height: "500px",
-        gap: "10px",
-      }}
-      >
-        <div
-          style={{
-            borderBottom: "1px solid black",
-            minHeight: "50px",
-            display: "flex",
-            alignItems: "center",
-            backgroundColor: "#cc5647",
-          }}
-        >
-          <MenuIcon sx={{ color: "whitesmoke", paddingLeft: "10px" }} />
-          <HomeIcon sx={{ color: "whitesmoke", paddingLeft: "10px" }} />
+      <div className={classes.divContainer}>
+        <div className={classes.subContainer}>
+          <MenuIcon className={classes.menu} />
+          <HomeIcon className={classes.menu} />
           <Button
             onClick={handleClickOpen}
             variant="outlined"
@@ -307,29 +364,14 @@ function Home(props) {
             <AddIcon />
             Add Task
           </Button>
-          <h4 style={{
-            border: "none",
-            width: "40px",
-            marginLeft: "10px",
-            color: "whitesmoke",
-          }}
-          >
-            {props.cor.givenName}
-
-          </h4>
+          <h4 className={classes.headerName}>{props.cor.givenName}</h4>
           <IconButton
             size="large"
             aria-label="show more"
             aria-haspopup="true"
             color="white"
-            sx={{ color: "whitesmoke" }}
           >
-            <Avatar
-              sx={{ backgroundColor: "#cc5647 !important", border: "1px solid black" }}
-            >
-              {props.cor.givenName.charAt(0)}
-
-            </Avatar>
+            <Avatar className={classes.logoAvatar}>{props.cor.givenName.charAt(0)}</Avatar>
           </IconButton>
           <Button
             variant="outlined"
@@ -337,24 +379,10 @@ function Home(props) {
             onClick={handlerBack}
           >
             sign Out
-
           </Button>
         </div>
-        <div style={{
-          width: "100%",
-          display: "flex",
-          height: "437px",
-          gap: "10px",
-        }}
-        >
-          <div style={{
-            width: "30%",
-            paddingLeft: "3px",
-            paddingRight: "3px",
-            boxShadow: "0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-            overflow: "hidden",
-          }}
-          >
+        <div className={classes.sideBarContainer}>
+          <div className={classes.sideBarSubContainer}>
             <Button className={classes.button} onClick={inboxHandler}>
               Inbox
               <Badge badgeContent={task.length} className={classes.baged} color="primary" />
@@ -380,9 +408,7 @@ function Home(props) {
             ) : null}
             <FormControl
               fullWidth
-              sx={{
-                marginTop: "5px", marginBottom: "10px", border: "none", padding: "0px",
-              }}
+              className={classes.sliderForm}
             >
               <InputLabel> Select priority </InputLabel>
               <Select
@@ -400,55 +426,32 @@ function Home(props) {
               {" "}
               <AddCircleOutlinedIcon onClick={projectHandler} />
             </Button>
-            {ProjectButton
-              ? (projectTittles.map(
-                (item, index) => (
-                  <Button
-                    key={index}
-                    className={classes.button2}
-                    onClick={() => projectPage(item)}
-                  >
-                    {item.name}
-                  </Button>
-                ),
-              ))
-              : null}
+            <div>
+              {ProjectButton
+                ? (projectTittles.map(
+                  (item) => (
+                    <Button
+                      key={Math.random()}
+                      className={classes.button2}
+                      onClick={() => projectPage(item)}
+                    >
+                      {item.name}
+                    </Button>
+                  ),
+                ))
+                : null}
+
+            </div>
           </div>
-          <div style={{
-            width: "70%",
-            overflow: "scroll",
-          }}
-          >
+          <div className={classes.projectDivContainer}>
             {isProjectPage ? (
               <>
-                <div
-                  style={{
-                    borderBottom: "1px solid black",
-                    minHeight: "80px",
-                    display: "flex",
-                    alignItems: "center",
-                    paddingLeft: "5%",
-                    width: "95%",
-                    position: "static !important",
-
-                  }}
-                >
+                <div className={classes.projectContainer}>
                   <h2>{projectAdd.name}</h2>
                 </div>
-                <div style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  marginLeft: "20px",
-                  marginTop: "10px",
-                  overflow: "scroll",
-                }}
-                >
+                <div className={classes.projectSubContainer}>
                   <ProjectListView projectList={projectAdd} />
-                  <div style={{
-                    width: "60%",
-                    marginBottom: "10px",
-                  }}
-                  >
+                  <div className={classes.projectListContainer}>
                     <Button
                       onClick={handleClickOpen}
                       className={classes.button4}
@@ -458,15 +461,9 @@ function Home(props) {
                     </Button>
                   </div>
                 </div>
-
               </>
-
             ) : (
-              <div
-                style={{
-                  width: "100%",
-                }}
-              >
+              <div className={classes.nonProjectContainer}>
                 {isopen ? (
                   <ListTask />
                 ) : null}

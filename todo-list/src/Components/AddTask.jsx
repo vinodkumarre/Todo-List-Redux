@@ -11,8 +11,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { ToastContainer, toast } from "react-toastify";
-import { projectActions } from "../Store/project";
-import { todoActions } from "../Store/todo";
+import { projectActions } from "../Store/Project";
+import { todoActions } from "../Store/Todo";
 import "react-toastify/dist/ReactToastify.css";
 
 const useStyle = makeStyles({
@@ -66,6 +66,11 @@ const useStyle = makeStyles({
     paddingLeft: "53%",
     gap: "10px",
   },
+  div: {
+    display: "flex",
+    gap: "20px",
+
+  },
 
 });
 
@@ -97,7 +102,7 @@ function AddTask(props) {
         tittle,
         description,
         id: tempId,
-        date: new Date(value),
+        date: new Date(value).toLocaleString(),
         priority,
       }));
       setDescription("");
@@ -133,11 +138,7 @@ function AddTask(props) {
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Description"
         />
-        <div style={{
-          display: "flex",
-          gap: "20px",
-        }}
-        >
+        <div className={classes.div}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               value={value}

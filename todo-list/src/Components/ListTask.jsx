@@ -6,8 +6,8 @@ import Dialog from "@mui/material/Dialog";
 import { ToastContainer, toast } from "react-toastify";
 import { makeStyles } from "@mui/styles";
 import Edit from "./Edit";
-import { todoActions } from "../Store/todo";
-import { doneActions } from "../Store/doneReducer";
+import { todoActions } from "../Store/Todo";
+import { doneActions } from "../Store/DoneReducer";
 import "react-toastify/dist/ReactToastify.css";
 
 const useStyles = makeStyles({
@@ -37,6 +37,12 @@ const useStyles = makeStyles({
   },
   buttonDiv: {
     paddingRight: "10px",
+  },
+  dateList: {
+    width: "70px", height: "20px",
+  },
+  check: {
+    width: "30px", height: "30px",
   },
 
 });
@@ -74,7 +80,7 @@ function ListTask() {
             className={classes.subContainer}
           >
             <div>
-              <input type="checked" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo)} style={{ width: "30px", height: "30px" }} />
+              <input type="checkBox" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo)} className={classes.check} />
             </div>
             <div
               className={classes.subDiv}
@@ -85,7 +91,10 @@ function ListTask() {
               <div
                 className={classes.div}
               >
-                <input style={{ width: "70px", height: "20px" }} value={todo.date && todo.date.toLocaleDateString()} />
+                <input
+                  className={classes.dateList}
+                  value={todo.date && todo.date}
+                />
               </div>
             </div>
           </div>

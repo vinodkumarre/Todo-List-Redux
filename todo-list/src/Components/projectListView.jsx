@@ -3,14 +3,52 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import Dialog from "@mui/material/Dialog";
+import { makeStyles } from "@mui/styles";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Edit from "./Edit";
+import { todoActions } from "../Store/Todo";
+import { doneActions } from "../Store/DoneReducer";
 
-import { todoActions } from "../Store/todo";
-import { doneActions } from "../Store/doneReducer";
+const useStyles = makeStyles({
+  divContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderBottom: "0.5px solid black",
+    marginLeft: "15px",
+    marginTop: "15px",
+    height: "60px",
+  },
+  divSubContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "20px",
+
+  },
+  tittleContainer: {
+    display: "flex", flexDirection: "column", gap: "4px",
+  },
+  span: {
+    fontSize: "x-large",
+  },
+  dateContainer: {
+    display: "flex", gap: "40px", alignItems: "center", height: "20px",
+  },
+  dateView: {
+    width: "70px", height: "20px",
+  },
+  check: {
+    width: "30px", height: "30px",
+  },
+  buttonDiv: {
+    paddingRight: "10px",
+  },
+});
 
 function ProjectListView(props) {
+  const classes = useStyles();
   const task = useSelector((state) => state.todos.todos);
   const dispatch = useDispatch();
   const d = task.filter((v) => {
@@ -44,42 +82,25 @@ function ProjectListView(props) {
       {d.map((todo) => (
         <div
           key={todo.id}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            borderBottom: "0.5px solid black",
-            marginLeft: "15px",
-            marginTop: "15px",
-            height: "60px",
-          }}
+          className={classes.divContainer}
         >
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "20px",
-          }}
-          >
+          <div className={classes.divSubContainer}>
             <div>
-              <input type="radio" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo)} style={{ width: "30px", height: "30px" }} />
+              <input type="checkBox" id="inputTag" value={currentRadioValue} onClick={() => handleRadioChange(todo)} className={classes.check} />
             </div>
-            <div style={{
-              display: "flex", flexDirection: "column", gap: "4px",
-            }}
-            >
-              <span style={{ fontSize: "x-large" }}>
+            <div className={classes.tittleContainer}>
+              <span className={classes.span}>
                 {todo.tittle}
               </span>
-              <div style={{
-                display: "flex", gap: "40px", alignItems: "center", height: "20px",
-              }}
-              >
-                <input style={{ width: "70px", height: "20px" }} value={todo.date && todo.date.toLocaleDateString()} />
+              <div className={classes.dateContainer}>
+                <input
+                  className={classes.dateView}
+                  value={todo.date && todo.date}
+                />
               </div>
             </div>
           </div>
-          <div style={{ paddingRight: "10px" }}>
+          <div className={classes.buttonDiv}>
             <Button onClick={() => handleClickOpen(todo.id)}>
               <ModeEditOutlineOutlinedIcon />
             </Button>
