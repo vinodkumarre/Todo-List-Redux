@@ -80,7 +80,7 @@ function AddTask(props) {
   const [description, setDescription] = useState("");
   const [tittleText, setTittleText] = useState("");
   const [value, setValue] = useState("");
-  const [isDate, setIsDate] = useState("");
+  // const [isDate, setIsDate] = useState("");
   const [priority, setPriority] = useState("");
 
   const dispatch = useDispatch();
@@ -108,7 +108,7 @@ function AddTask(props) {
       setDescription("");
       setTittle("");
       setValue("");
-      setIsDate("");
+      // setIsDate("");
       setPriority("");
       dispatch(projectActions.projectAddUser({
         name: props.headTittle,
@@ -148,7 +148,7 @@ function AddTask(props) {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  value={isDate}
+                  // value={isDate}
                   className={classes.dateTextFiled}
                 />
               )}

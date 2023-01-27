@@ -33,13 +33,13 @@ const useStyles = makeStyles({
     fontSize: "x-large",
   },
   div: {
-    display: "flex", gap: "40px", alignItems: "center", height: "20px",
+    display: "flex", gap: "40px", alignItems: "center", height: "20px", border: "1px solid",
   },
   buttonDiv: {
     paddingRight: "10px",
   },
   dateList: {
-    width: "70px", height: "20px",
+    height: "20px",
   },
   check: {
     width: "30px", height: "30px",
@@ -91,10 +91,7 @@ function ListTask() {
               <div
                 className={classes.div}
               >
-                <input
-                  className={classes.dateList}
-                  value={todo.date && todo.date}
-                />
+                <h4 className={classes.dateList}>{todo.date}</h4>
               </div>
             </div>
           </div>

@@ -130,7 +130,6 @@ const useStyle = makeStyles({
     margin: "80px auto",
     border: "1px solid black",
     width: "60%",
-    height: "500px",
     gap: "10px",
   },
   subContainer: {
@@ -155,8 +154,9 @@ const useStyle = makeStyles({
   sideBarContainer: {
     width: "100%",
     display: "flex",
-    height: "437px",
+    minHeight: "60vh",
     gap: "10px",
+    overflow: "hidden",
 
   },
   sideBarSubContainer: {
@@ -164,7 +164,7 @@ const useStyle = makeStyles({
     paddingLeft: "3px",
     paddingRight: "3px",
     boxShadow: "0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-    overflow: "hidden",
+    overflow: "scroll",
   },
   sliderForm: {
     marginTop: "5px", marginBottom: "10px", border: "none", padding: "0px",
@@ -197,6 +197,12 @@ const useStyle = makeStyles({
   },
   nonProjectContainer: {
     width: "100%",
+  },
+  sideBarProjectContainer: {
+    width: "100%",
+    height: "190px",
+    overflow: "scroll",
+    boxShadow: "0 6px 20px 0 rgb(0 0 0 / 19%)",
   },
 });
 
@@ -426,22 +432,23 @@ function Home(props) {
               {" "}
               <AddCircleOutlinedIcon onClick={projectHandler} />
             </Button>
-            <div>
-              {ProjectButton
-                ? (projectTittles.map(
-                  (item) => (
-                    <Button
-                      key={Math.random()}
-                      className={classes.button2}
-                      onClick={() => projectPage(item)}
-                    >
-                      {item.name}
-                    </Button>
-                  ),
-                ))
-                : null}
-
-            </div>
+            {ProjectButton
+              ? (
+                <div className={classes.sideBarProjectContainer}>
+                  {projectTittles.map(
+                    (item) => (
+                      <Button
+                        key={Math.random()}
+                        className={classes.button2}
+                        onClick={() => projectPage(item)}
+                      >
+                        {item.name}
+                      </Button>
+                    ),
+                  )}
+                </div>
+              )
+              : null}
           </div>
           <div className={classes.projectDivContainer}>
             {isProjectPage ? (
