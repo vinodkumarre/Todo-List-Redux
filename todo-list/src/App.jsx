@@ -5,7 +5,7 @@ import {
   Routes,
 } from "react-router-dom";
 import { gapi } from "gapi-script";
-import Home from "./Components/home";
+import Home from "./Components/Home";
 import Login from "./Components/Login";
 
 const clientId = "276668573212-m1i25rgep0dbc3b8vj3gd89ulk08pjal.apps.googleusercontent.com";
