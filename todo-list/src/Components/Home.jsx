@@ -172,6 +172,7 @@ const useStyle = makeStyles({
   projectDivContainer: {
     width: "70%",
     overflow: "scroll",
+    height: "60vh",
   },
   projectContainer: {
     borderBottom: "1px solid black",
@@ -214,33 +215,61 @@ function Home(props) {
   const projectTittles = useSelector((state) => state.project.names);
   const [open, setOpen] = React.useState(false);
   const [opens, setOpens] = React.useState(false);
-  const [isopen, setIsOpen] = React.useState(true);
-  const [isToday, setIsToday] = React.useState(false);
-  const [calender, setCalender] = React.useState(false);
-  const [isUpCome, setIsUpCome] = React.useState(false);
-  const [ProjectButton, setProjectButton] = React.useState(false);
-  const [isProjectPage, setIsProjectPage] = React.useState(false);
-  const [selectors, setSelectors] = React.useState(false);
-  const [isDelete, setIsDelete] = React.useState(false);
-  const [value, setValue] = React.useState("");
-  // const [projectTittle, setProjectTittle] = React.useState();
-  const [projectAdd, setProjectAdd] = React.useState();
-  const [isPriority, setIsPriority] = React.useState();
-  const [isTodayDate, setIsTodayDate] = React.useState();
-  const [name, setName] = React.useState("");
-  const [passName, setPassName] = React.useState("");
-  const [priority, setPriority] = React.useState("");
+  const [prev1, setPrev1] = React.useState({
+    isopen: true,
+    isToday: false,
+    isUpCome: false,
+    selectors: false,
+    isDelete: false,
+    calender: false,
+    ProjectButton: false,
+    isProjectPage: false,
+  });
+  const [values, setValues] = React.useState({
+    value: "",
+    projectAdd: "",
+    isPriority: "",
+    isTodayDate: "",
+    name: "",
+    passName: "",
+    priority: "",
+  });
   const dispatch = useDispatch();
   const handleText = (e) => {
-    setName(e.target.value);
+    setValues({
+      value: "",
+      projectAdd: "",
+      isPriority: "",
+      isTodayDate: "",
+      name: e.target.value,
+      passName: "",
+      priority: "",
+    });
   };
   const addHandler = () => {
-    if (name !== "") {
+    if (values.name !== "") {
       dispatch(projectActions.project({
-        name,
+        name: values.name,
       }));
-      setName("");
-      setProjectButton(true);
+      setValues({
+        value: "",
+        projectAdd: "",
+        isPriority: "",
+        isTodayDate: "",
+        passName: "",
+        priority: "",
+        name: "",
+      });
+      setPrev1({
+        isopen: false,
+        isToday: false,
+        isUpCome: false,
+        selectors: false,
+        isDelete: false,
+        calender: false,
+        ProjectButton: true,
+        isProjectPage: false,
+      });
     }
   };
 
@@ -255,80 +284,167 @@ function Home(props) {
     setOpens(false);
   };
   const dateHandler = () => {
-    setIsToday(true);
-    setIsOpen(false);
-    setIsUpCome(false);
-    setCalender(false);
-    setProjectButton(false);
-    setSelectors(false);
-    setIsProjectPage(false);
-    setIsDelete(false);
-    setValue("");
-    setPriority("");
+    setPrev1({
+      isopen: false,
+      isToday: true,
+      isUpCome: false,
+      selectors: false,
+      isDelete: false,
+      calender: false,
+      ProjectButton: false,
+      isProjectPage: false,
+    });
+    setValues({
+      ...values,
+      priority: "",
+      value: "",
+    });
   };
   const inboxHandler = () => {
-    setIsOpen(true);
-    setIsToday(false);
-    setIsUpCome(false);
-    setCalender(false);
-    setProjectButton(false);
-    setSelectors(false);
-    setIsProjectPage(false);
-    setIsDelete(false);
-    setValue("");
-    setPriority("");
+    setPrev1({
+      isopen: true,
+      isToday: false,
+      isUpCome: false,
+      selectors: false,
+      isDelete: false,
+      calender: false,
+      ProjectButton: false,
+      isProjectPage: false,
+    });
+    setValues({
+      ...values,
+      priority: "",
+      value: "",
+    });
   };
   const handleCelander = (e) => {
-    setValue(e);
+    setValues({
+      value: e,
+      projectAdd: "",
+      isPriority: "",
+      isTodayDate: "",
+      passName: "",
+      priority: "",
+      name: "",
+    });
     if (e !== "") {
       const newList = task.filter(
         (t) => t.date.toLocaleDateString() === new Date(e).toLocaleDateString(),
       );
-      setIsUpCome(true);
-      setIsOpen(false);
-      setSelectors(false);
-      setIsTodayDate(newList);
-      setPriority("");
-      setIsDelete(false);
+      setPrev1({
+        isopen: false,
+        isToday: false,
+        isUpCome: true,
+        selectors: false,
+        isDelete: false,
+        calender: true,
+        ProjectButton: false,
+        isProjectPage: false,
+      });
+      setValues({
+        value: e,
+        projectAdd: "",
+        isPriority: "",
+        isTodayDate: newList,
+        passName: "",
+        priority: "",
+        name: "",
+      });
     }
   };
   const handleChange = (e) => {
-    setPriority(e.target.value);
+    setValues({
+      value: "",
+      projectAdd: "",
+      isPriority: "",
+      isTodayDate: "",
+      passName: "",
+      priority: e.target.value,
+      name: "",
+    });
     if (e.target.value !== "") {
       const newList = task.filter((t) => t.priority === e.target.value);
-      setIsUpCome(false);
-      setIsOpen(false);
-      setSelectors(true);
-      setIsPriority(newList);
-      setIsDelete(false);
+      setPrev1({
+        isopen: false,
+        isToday: false,
+        isUpCome: false,
+        selectors: true,
+        isDelete: false,
+        calender: false,
+        ProjectButton: false,
+        isProjectPage: false,
+      });
+      setValues({
+        value: "",
+        projectAdd: "",
+        isPriority: newList,
+        isTodayDate: "",
+        passName: "",
+        priority: e.target.value,
+        name: "",
+      });
     }
   };
   const filterHandler = () => {
-    setCalender(true);
+    setPrev1({
+      isopen: false,
+      isToday: false,
+      isUpCome: false,
+      selectors: false,
+      isDelete: false,
+      calender: true,
+      ProjectButton: false,
+      isProjectPage: false,
+    });
   };
   const projectHandler = () => {
     setOpens(true);
   };
   const projectTittleHandler = () => {
-    setProjectButton(true);
+    setPrev1({
+      isopen: false,
+      isToday: false,
+      isUpCome: false,
+      selectors: false,
+      isDelete: false,
+      calender: false,
+      ProjectButton: true,
+      isProjectPage: false,
+    });
   };
   const projectPage = (e) => {
-    setProjectAdd(e);
-    setPassName(e.name);
-    // setProjectTittle(e.todos);
-    setIsProjectPage(true);
+    setValues({
+      ...values,
+      projectAdd: e,
+      passName: e.name,
+    });
+    setPrev1({
+      isopen: false,
+      isToday: false,
+      isUpCome: false,
+      selectors: false,
+      isDelete: false,
+      calender: false,
+      ProjectButton: true,
+      isProjectPage: true,
+    });
   };
   const setHandler = () => {
-    setIsDelete(true);
-    setIsOpen(false);
-    setIsToday(false);
-    setIsUpCome(false);
-    setCalender(false);
-    setValue("");
-    setPriority("");
-    setProjectButton(false);
-    setSelectors(false);
-    setIsProjectPage(false);
+    setPrev1({
+      isopen: false,
+      isToday: false,
+      isUpCome: false,
+      selectors: false,
+      isDelete: true,
+      calender: false,
+      ProjectButton: false,
+      isProjectPage: false,
+    });
+    setValues({
+      ...values,
+      priority: "",
+      value: "",
+    });
   };
   const handlerBack = () => {
     navigate("/");
@@ -338,10 +454,9 @@ function Home(props) {
       <Modal
         className={classes.modal}
         open={open}
-        // onClose={handleClose}
       >
         <Box>
-          <AddTask headTittle={passName} handClose={handleClose} />
+          <AddTask headTittle={values.passName} handClose={handleClose} />
         </Box>
 
       </Modal>
@@ -352,7 +467,7 @@ function Home(props) {
       >
         <DialogTitle id="alert-dialog-title" sx={{ paddingLeft: "50px", fontSize: "xx-large", marginTop: "10px" }}>Add Tittle</DialogTitle>
         <DialogContent>
-          <TextField fullWidth label="Tittle" value={name} onChange={handleText} />
+          <TextField fullWidth label="Tittle" value={values.name} onChange={handleText} />
         </DialogContent>
         <DialogActions>
           <Button onClick={addHandler} variant="contained" color="success" sx={{ margin: "10px", float: "right" }}>Add</Button>
@@ -402,11 +517,11 @@ function Home(props) {
               Upcoming
               <CalendarTodayIcon onClick={filterHandler} />
             </Button>
-            {calender ? (
+            {prev1.calender ? (
               <LocalizationProvider className={classes.button2} dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Filter By Date"
-                  value={value}
+                  value={values.value}
                   onChange={(newValue) => handleCelander(newValue)}
                   renderInput={(params) => <TextField {...params} fullWidth sx={{ marginTop: "10px", color: "GrayText" }} />}
                 />
@@ -418,7 +533,7 @@ function Home(props) {
             >
               <InputLabel> Select priority </InputLabel>
               <Select
-                value={priority}
+                value={values.priority}
                 onChange={handleChange}
               >
                 <MenuItem value="priority1">priority1</MenuItem>
@@ -432,7 +547,7 @@ function Home(props) {
               {" "}
               <AddCircleOutlinedIcon onClick={projectHandler} />
             </Button>
-            {ProjectButton
+            {prev1.ProjectButton
               ? (
                 <div className={classes.sideBarProjectContainer}>
                   {projectTittles.map(
@@ -451,13 +566,13 @@ function Home(props) {
               : null}
           </div>
           <div className={classes.projectDivContainer}>
-            {isProjectPage ? (
+            {prev1.isProjectPage ? (
               <>
                 <div className={classes.projectContainer}>
-                  <h2>{projectAdd.name}</h2>
+                  <h2>{values.projectAdd.name}</h2>
                 </div>
                 <div className={classes.projectSubContainer}>
-                  <ProjectListView projectList={projectAdd} />
+                  <ProjectListView projectList={values.projectAdd} />
                   <div className={classes.projectListContainer}>
                     <Button
                       onClick={handleClickOpen}
@@ -471,13 +586,13 @@ function Home(props) {
               </>
             ) : (
               <div className={classes.nonProjectContainer}>
-                {isopen ? (
+                {prev1.isopen ? (
                   <ListTask />
                 ) : null}
-                {isToday ? (<TodayDate />) : null}
-                {isUpCome ? (<UpcomingTask upCome={isTodayDate} />) : null}
-                {selectors ? (<PrioritySelector priorityChange={isPriority} />) : null}
-                {isDelete ? (<Done />) : null}
+                {prev1.isToday ? (<TodayDate />) : null}
+                {prev1.isUpCome ? (<UpcomingTask upCome={values.isTodayDate} />) : null}
+                {prev1.selectors ? (<PrioritySelector priorityChange={values.isPriority} />) : null}
+                {prev1.isDelete ? (<Done />) : null}
               </div>
             )}
           </div>
