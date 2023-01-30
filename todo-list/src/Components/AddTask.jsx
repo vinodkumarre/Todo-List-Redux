@@ -109,7 +109,7 @@ function AddTask(props) {
         tittle: prev.tittle,
         description: prev.description,
         id: tempId,
-        date: new Date(prev.value).toLocaleString(),
+        date: new Date(prev.value),
         priority: prev.priority,
       }));
       setPrev({
@@ -163,7 +163,6 @@ function AddTask(props) {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  // value={isDate}
                   className={classes.dateTextFiled}
                 />
               )}
