@@ -57,8 +57,24 @@ const useStyle = makeStyles({
     boxShadow: "none",
     "&:hover": {
       backgroundColor: "lightgrey !important",
+      boxShadow: "0.3em 0.3em 1em rgb(0 0 0 / 30%)",
 
     },
+  },
+  p: {
+    display: "flex",
+    justifyContent: "space-between !important",
+    marginTop: "1px !important",
+    width: "100%",
+    boxShadow: "0.3em 0.3em 1em rgb(0 0 0 / 30%)",
+    textAlign: "left",
+    color: "black !important",
+    "&:hover": {
+      backgroundColor: "lightgrey !important",
+      boxShadow: "none",
+
+    },
+
   },
   selectTag: {
     display: "flex",
@@ -190,6 +206,7 @@ const useStyle = makeStyles({
     marginLeft: "20px",
     marginTop: "10px",
     overflow: "scroll",
+    width: "90%",
 
   },
   projectListContainer: {
@@ -197,13 +214,14 @@ const useStyle = makeStyles({
     marginBottom: "10px",
   },
   nonProjectContainer: {
-    width: "100%",
+    width: "90%",
+    marginLeft: "30px",
   },
   sideBarProjectContainer: {
     width: "100%",
     height: "190px",
     overflow: "scroll",
-    boxShadow: "0 6px 20px 0 rgb(0 0 0 / 19%)",
+    // boxShadow: "0 6px 20px 0 rgb(0 0 0 / 19%)",
   },
 });
 
@@ -402,7 +420,7 @@ function Home(props) {
   };
   const projectTittleHandler = () => {
     setPrev1({
-      isopen: false,
+      isopen: true,
       isToday: false,
       isUpCome: false,
       selectors: false,
@@ -554,7 +572,7 @@ function Home(props) {
                     (item) => (
                       <Button
                         key={Math.random()}
-                        className={classes.button2}
+                        className={classes.p}
                         onClick={() => projectPage(item)}
                       >
                         {item.name}

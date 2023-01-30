@@ -19,6 +19,7 @@ const useStyles = makeStyles({
     marginLeft: "15px",
     marginTop: "15px",
     height: "60px",
+    boxShadow: "0.3em 0.3em 1em rgb(0 0 0 / 30%)",
   },
   subContainer: {
     display: "flex",
