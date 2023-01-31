@@ -7,7 +7,6 @@ function TodayDate() {
   const newTask = task.filter(
     (t) => t.date.toLocaleDateString() === new Date().toLocaleDateString(),
   );
-  console.log(newTask);
 
   return (
     <div>
